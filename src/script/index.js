@@ -1,40 +1,77 @@
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds) {
-            break;
-        }
-    }
-}
+var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock=0
 
-var canvas, ctx, HEIGHT, WIDTH, frames = 0
-
-var block = {
+//Objetos ds blocos 
+var blocks = [{
     y: 0,
     x: 200,
-    height: 20,
-    width: 20,
-    color: "#ffffff",
-    fall: 20,
-
+    color: "#78f9b0",
+    fall: 2,
     atualize: function () {
-        sleep(600)
-        if(this.y < 540){
+        if (this.y < 540) {
             this.y += this.fall
         }
-        
     },
-
     draw: function () {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y)
+        ctx.lineTo(this.x+40, this.y)
+        ctx.lineTo(this.x+40, this.y+40)
+        ctx.lineTo(this.x, this.y+40)
+        ctx.lineTo(this.x, this.y)
+        ctx.stroke();
+        ctx.closePath()
+        ctx.beginPath()
         ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.width, this.height)
+        ctx.moveTo(this.x+1, this.y+1)
+        ctx.lineTo(this.x+40-1, this.y+1)
+        ctx.lineTo(this.x+40-1, this.y+40-1)
+        ctx.lineTo(this.x+1, this.y+40-1)
+        ctx.lineTo(this.x+1, this.y-1)
+        ctx.fill()
+        ctx.beginPath();
+        ctx.moveTo(this.x+20, this.y)
+        ctx.lineTo(this.x+20, this.y+40)
+        ctx.moveTo(this.x, this.y+20)
+        ctx.lineTo(this.x+40, this.y+20)
+        ctx.stroke();
+        ctx.closePath()
     }
+}, 
+{
+    y: 0,
+    x: 200,
+    color: "#78f9b0",
+    fall: 2,
+    atualize: function () {
+        if (this.y < 540) {
+            this.y += this.fall
+        }
 
+    },
+    draw: function () {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y)
+        ctx.lineTo(this.x+20, this.y)
+        ctx.lineTo(this.x+20, this.y+20)
+        ctx.lineTo(this.x, this.y+20)
+        ctx.lineTo(this.x, this.y)
+        ctx.stroke();
+        ctx.closePath()
+        ctx.beginPath()
+        ctx.fillStyle = this.color
+        ctx.moveTo(this.x+1, this.y+1)
+        ctx.lineTo(this.x+20-1, this.y+1)
+        ctx.lineTo(this.x+20-1, this.y+20-1)
+        ctx.lineTo(this.x+1, this.y+20-1)
+        ctx.lineTo(this.x+1, this.y-1)
+        ctx.fill()
+    }
 }
 
 
-function main() {
+]
 
+function main() {
     HEIGHT = innerHeight
     WIDTH = innerWidth
 
@@ -42,50 +79,56 @@ function main() {
         HEIGHT = 560
         WIDTH = 420
     }
-    
+
+    // Atribuindo as caracteristicas do canvas
     canvas = document.createElement('canvas')
     canvas.height = HEIGHT
     canvas.width = WIDTH
     canvas.style.border = "1px solid black"
     canvas.style.borderRadius = "3px"
 
+    // Capturando o contexto do canvas
+    /** @type {CanvasRenderingContext2D} */
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
-
-
+    
+    // Lendo as informações de input do usuario
     document.addEventListener("keydown", function (event) {
-        console.log(event.key)
-        if (event.key == "ArrowRight" && block.x < 400) {
-            block.x += 20
+        if (event.key == "ArrowRight" && blocks[currentBlock].x < 400) {
+            blocks[currentBlock].x += 20
         }
-        else if (event.key == "ArrowLeft" && block.x > 0) {
-            block.x -= 20
+        else if (event.key == "ArrowLeft" && blocks[currentBlock].x > 0) {
+            blocks[currentBlock].x -= 20
         }
     })
+
+    //Rodando o game
     run()
 
 }
 
+
 function run() {
     atualize()
     draw()
-
+    
 
     window.requestAnimationFrame(run)
 }
+
 
 function draw() {
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
 
-    block.draw()
+    blocks[currentBlock].draw()
 }
 
 
 
 function atualize() {
     frames++
-    block.atualize()
+    blocks[currentBlock].atualize()
 }
 
 main()
