@@ -1,6 +1,6 @@
 var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock=0
 
-//Objetos ds blocos 
+//Objetos de blocos 
 var blocks = [{
     y: 0,
     x: 200,
@@ -111,7 +111,9 @@ function main() {
 function run() {
     atualize()
     draw()
-    
+
+
+
 
     window.requestAnimationFrame(run)
 }
