@@ -1,4 +1,5 @@
-var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock=0
+var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock = 0
+
 
 //Objetos de blocos 
 var blocks = [{
@@ -7,36 +8,36 @@ var blocks = [{
     color: "#78f9b0",
     fall: 2,
     atualize: function () {
-        if (this.y < 540) {
+        if (this.y < 540 - 20) {
             this.y += this.fall
         }
     },
     draw: function () {
         ctx.beginPath();
         ctx.moveTo(this.x, this.y)
-        ctx.lineTo(this.x+40, this.y)
-        ctx.lineTo(this.x+40, this.y+40)
-        ctx.lineTo(this.x, this.y+40)
+        ctx.lineTo(this.x + 40, this.y)
+        ctx.lineTo(this.x + 40, this.y + 40)
+        ctx.lineTo(this.x, this.y + 40)
         ctx.lineTo(this.x, this.y)
         ctx.stroke();
         ctx.closePath()
         ctx.beginPath()
         ctx.fillStyle = this.color
-        ctx.moveTo(this.x+1, this.y+1)
-        ctx.lineTo(this.x+40-1, this.y+1)
-        ctx.lineTo(this.x+40-1, this.y+40-1)
-        ctx.lineTo(this.x+1, this.y+40-1)
-        ctx.lineTo(this.x+1, this.y-1)
+        ctx.moveTo(this.x + 1, this.y + 1)
+        ctx.lineTo(this.x + 40 - 1, this.y + 1)
+        ctx.lineTo(this.x + 40 - 1, this.y + 40 - 1)
+        ctx.lineTo(this.x + 1, this.y + 40 - 1)
+        ctx.lineTo(this.x + 1, this.y - 1)
         ctx.fill()
         ctx.beginPath();
-        ctx.moveTo(this.x+20, this.y)
-        ctx.lineTo(this.x+20, this.y+40)
-        ctx.moveTo(this.x, this.y+20)
-        ctx.lineTo(this.x+40, this.y+20)
+        ctx.moveTo(this.x + 20, this.y)
+        ctx.lineTo(this.x + 20, this.y + 40)
+        ctx.moveTo(this.x, this.y + 20)
+        ctx.lineTo(this.x + 40, this.y + 20)
         ctx.stroke();
         ctx.closePath()
     }
-}, 
+},
 {
     y: 0,
     x: 200,
@@ -51,25 +52,27 @@ var blocks = [{
     draw: function () {
         ctx.beginPath();
         ctx.moveTo(this.x, this.y)
-        ctx.lineTo(this.x+20, this.y)
-        ctx.lineTo(this.x+20, this.y+20)
-        ctx.lineTo(this.x, this.y+20)
+        ctx.lineTo(this.x + 20, this.y)
+        ctx.lineTo(this.x + 20, this.y + 20)
+        ctx.lineTo(this.x, this.y + 20)
         ctx.lineTo(this.x, this.y)
         ctx.stroke();
         ctx.closePath()
         ctx.beginPath()
         ctx.fillStyle = this.color
-        ctx.moveTo(this.x+1, this.y+1)
-        ctx.lineTo(this.x+20-1, this.y+1)
-        ctx.lineTo(this.x+20-1, this.y+20-1)
-        ctx.lineTo(this.x+1, this.y+20-1)
-        ctx.lineTo(this.x+1, this.y-1)
+        ctx.moveTo(this.x + 1, this.y + 1)
+        ctx.lineTo(this.x + 20 - 1, this.y + 1)
+        ctx.lineTo(this.x + 20 - 1, this.y + 20 - 1)
+        ctx.lineTo(this.x + 1, this.y + 20 - 1)
+        ctx.lineTo(this.x + 1, this.y - 1)
         ctx.fill()
     }
 }
 
-
 ]
+
+const game = createGame()
+const KeyboardListener = createKeyboardListener()
 
 function main() {
     HEIGHT = innerHeight
@@ -91,16 +94,58 @@ function main() {
     /** @type {CanvasRenderingContext2D} */
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
-    
-    // Lendo as informações de input do usuario
-    document.addEventListener("keydown", function (event) {
-        if (event.key == "ArrowRight" && blocks[currentBlock].x < 400) {
-            blocks[currentBlock].x += 20
+
+
+    function createKeyboardListener() {
+        const state = {
+            observers: []
         }
-        else if (event.key == "ArrowLeft" && blocks[currentBlock].x > 0) {
-            blocks[currentBlock].x -= 20
+
+
+        function subscribe(observerFunction){
+            state.observers.push(observerFunction)
         }
-    })
+
+
+        function notofyAll(command){
+            console.log(`Notifying ${state.observers.lenght} observers`)
+
+            for(const observerFunction of state.. )
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Lendo as informações de input do usuario
+        document.addEventListener("keydown", handleKeydown)
+
+        function handleKeydown(event) {
+            const keyPressed = event.key
+
+            const command = {
+                blockId: currentBlock,
+                key: event.key
+            }
+
+            game.moveBlock(command)
+
+        }
+    }
+
+
+
 
     //Rodando o game
     run()
@@ -108,12 +153,39 @@ function main() {
 }
 
 
+
+
+
+function createGame() {
+    function moveBlock(command) {
+        // console.log(`Moving the block ${command.blockId} with ${command.key}`)
+
+
+        const keyPressed = command.key
+        const blockId = command.blockId
+
+        console.log(keyPressed)
+
+        if (keyPressed == "ArrowLeft" && blocks[blockId].x > 0) {
+            blocks[blockId].x -= 20
+        }
+        else if (keyPressed == "ArrowRight" && blocks[blockId].x < 400) {
+            blocks[blockId].x += 20
+        }
+
+
+
+
+    }
+    return {
+        moveBlock
+    }
+}
+
+
 function run() {
     atualize()
     draw()
-
-
-
 
     window.requestAnimationFrame(run)
 }
