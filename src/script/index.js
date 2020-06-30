@@ -107,26 +107,13 @@ function main() {
         }
 
 
-        function notofyAll(command){
+        function notifyAll(command){
             console.log(`Notifying ${state.observers.lenght} observers`)
 
-            for(const observerFunction of state.. )
-
+            for(const observerFunction of state.observers){
+                observerFunction(command)
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // Lendo as informações de input do usuario
         document.addEventListener("keydown", handleKeydown)
