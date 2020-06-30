@@ -5,6 +5,7 @@ var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock = 0
 var blocks = [{
     y: 0,
     x: 200,
+    xLimit: 400-20,
     color: "#78f9b0",
     fall: 2,
     atualize: function () {
@@ -71,10 +72,15 @@ var blocks = [{
 
 ]
 
+
 const game = createGame()
 const KeyboardListener = createKeyboardListener()
+KeyboardListener.subscribe(game.moveBlock)
+
 
 function main() {
+
+    
     HEIGHT = innerHeight
     WIDTH = innerWidth
 
@@ -96,72 +102,67 @@ function main() {
     document.body.appendChild(canvas)
 
 
-    function createKeyboardListener() {
-        const state = {
-            observers: []
-        }
-
-
-        function subscribe(observerFunction){
-            state.observers.push(observerFunction)
-        }
-
-
-        function notifyAll(command){
-            console.log(`Notifying ${state.observers.lenght} observers`)
-
-            for(const observerFunction of state.observers){
-                observerFunction(command)
-            }
-        }
-
-        // Lendo as informações de input do usuario
-        document.addEventListener("keydown", handleKeydown)
-
-        function handleKeydown(event) {
-            const keyPressed = event.key
-
-            const command = {
-                blockId: currentBlock,
-                key: event.key
-            }
-
-            game.moveBlock(command)
-
-        }
-    }
-
-
-
 
     //Rodando o game
     run()
 
 }
 
+//Camada de Input
+function createKeyboardListener() {
+    const state = {
+        observers: []
+    }
+
+
+    function subscribe(observerFunction) {
+        state.observers.push(observerFunction)
+    }
+
+
+    function notifyAll(command) {
+        console.log(`Notifying ${state.observers.length} observers`)
+
+        for (const observerFunction of state.observers) {
+            observerFunction(command)
+        }
+    }
+
+    // Lendo as informações de input do usuario
+    document.addEventListener("keydown", handleKeydown)
+
+    function handleKeydown(event) {
+        const keyPressed = event.key
+
+        const command = {
+            blockId: currentBlock,
+            key: event.key
+        }
+        notifyAll(command)
+    }
+
+    return{
+        subscribe
+    }
+}
 
 
 
-
+// Camada de regras do jogos
 function createGame() {
     function moveBlock(command) {
-        // console.log(`Moving the block ${command.blockId} with ${command.key}`)
+        console.log(`Moving the block ${command.blockId} with ${command.key}`)
 
 
         const keyPressed = command.key
         const blockId = command.blockId
 
-        console.log(keyPressed)
-
         if (keyPressed == "ArrowLeft" && blocks[blockId].x > 0) {
             blocks[blockId].x -= 20
         }
-        else if (keyPressed == "ArrowRight" && blocks[blockId].x < 400) {
+        else if (keyPressed == "ArrowRight" && blocks[blockId].x < blocks[blockId].xLimit) {
             blocks[blockId].x += 20
         }
-
-
-
 
     }
     return {
@@ -170,6 +171,7 @@ function createGame() {
 }
 
 
+// RUN
 function run() {
     atualize()
     draw()
@@ -177,7 +179,7 @@ function run() {
     window.requestAnimationFrame(run)
 }
 
-
+// Atualização da tela
 function draw() {
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
