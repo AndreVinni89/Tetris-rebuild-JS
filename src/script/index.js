@@ -1,19 +1,23 @@
-var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock = 0
+var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock = 0, stop = false
 
 
 //Objetos de blocos 
-var blocks = [{
-    y: 0,
-    x: 200,
-    xLimit: 400-20,
-    color: "#78f9b0",
-    fall: 2,
-    atualize: function () {
-        if (this.y < 540 - 20) {
+var blocks = [function (){
+    this.y = 0,
+    this.x= 200,
+    this.xLimit= 40,
+    this.ylimit= 40,
+    this.color= "#78f9b0",
+    this.fall= 2,
+    this.atualize = function (){
+        if (this.y < 560 - this.ylimit) {
             this.y += this.fall
         }
+        else if(this.y >= 560 - this.ylimit){
+            stop = true
+        }
     },
-    draw: function () {
+    this.draw = function(){
         ctx.beginPath();
         ctx.moveTo(this.x, this.y)
         ctx.lineTo(this.x + 40, this.y)
@@ -39,18 +43,19 @@ var blocks = [{
         ctx.closePath()
     }
 },
-{
-    y: 0,
-    x: 200,
-    color: "#78f9b0",
-    fall: 2,
-    atualize: function () {
+function (){
+    this.y = 0,
+    this.x = 200,
+    this.color = "#78f9b0",
+    this.fall = 2,
+    this.xLimit = 20,
+    this.atualize = function () {
         if (this.y < 540) {
             this.y += this.fall
         }
 
     },
-    draw: function () {
+    this.draw = function(){
         ctx.beginPath();
         ctx.moveTo(this.x, this.y)
         ctx.lineTo(this.x + 20, this.y)
@@ -76,6 +81,7 @@ var blocks = [{
 const game = createGame()
 const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
+var block = new blocks[currentBlock]()
 
 
 function main() {
@@ -156,12 +162,12 @@ function createGame() {
 
         const keyPressed = command.key
         const blockId = command.blockId
-
-        if (keyPressed == "ArrowLeft" && blocks[blockId].x > 0) {
-            blocks[blockId].x -= 20
+        
+        if (keyPressed == "ArrowLeft" && block.x > 0) {
+            block.x -= 20
         }
-        else if (keyPressed == "ArrowRight" && blocks[blockId].x < blocks[blockId].xLimit) {
-            blocks[blockId].x += 20
+        else if (keyPressed == "ArrowRight" && block.x < 420 - block.xLimit) {
+            block.x += 20
         }
 
     }
@@ -173,9 +179,15 @@ function createGame() {
 
 // RUN
 function run() {
+    if(stop){
+        currentBlock = 1
+        block = new blocks[currentBlock]()
+        stop = false
+    }
+
     atualize()
     draw()
-
+    
     window.requestAnimationFrame(run)
 }
 
@@ -183,15 +195,14 @@ function run() {
 function draw() {
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
-
-    blocks[currentBlock].draw()
+    block.draw()
+    
 }
-
 
 
 function atualize() {
     frames++
-    blocks[currentBlock].atualize()
+    block.atualize()
 }
 
 main()
