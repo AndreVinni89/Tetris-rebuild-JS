@@ -2,80 +2,87 @@ var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock = 0, stop = false
 
 
 //Objetos de blocos 
-var blocks = [function (){
+var blockDraws = []
+
+var blocks = [function () {
     this.y = 0,
-    this.x= 200,
-    this.xLimit= 40,
-    this.ylimit= 40,
-    this.color= "#78f9b0",
-    this.fall= 2,
-    this.atualize = function (){
-        if (this.y < 560 - this.ylimit) {
-            this.y += this.fall
+        this.x = 200,
+        this.xLimit = 40,
+        this.yLimit = 40,
+        this.color = "#78f9b0",
+        this.fall = 2,
+        this.atualize = function () {
+            if (this.y < 560 - this.yLimit) {
+                this.y += this.fall
+            }
+            else if (this.y >= 560 - this.yLimit) {
+                stop = true
+            }
+        },
+        this.draw = function () {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y)
+            ctx.lineTo(this.x + 40, this.y)
+            ctx.lineTo(this.x + 40, this.y + 40)
+            ctx.lineTo(this.x, this.y + 40)
+            ctx.lineTo(this.x, this.y)
+            ctx.stroke();
+            ctx.closePath()
+            ctx.beginPath()
+            ctx.fillStyle = this.color
+            ctx.moveTo(this.x + 1, this.y + 1)
+            ctx.lineTo(this.x + 40 - 1, this.y + 1)
+            ctx.lineTo(this.x + 40 - 1, this.y + 40 - 1)
+            ctx.lineTo(this.x + 1, this.y + 40 - 1)
+            ctx.lineTo(this.x + 1, this.y - 1)
+            ctx.fill()
+            ctx.beginPath();
+            ctx.moveTo(this.x + 20, this.y)
+            ctx.lineTo(this.x + 20, this.y + 40)
+            ctx.moveTo(this.x, this.y + 20)
+            ctx.lineTo(this.x + 40, this.y + 20)
+            ctx.stroke();
+            ctx.closePath()
         }
-        else if(this.y >= 560 - this.ylimit){
-            stop = true
-        }
-    },
-    this.draw = function(){
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y)
-        ctx.lineTo(this.x + 40, this.y)
-        ctx.lineTo(this.x + 40, this.y + 40)
-        ctx.lineTo(this.x, this.y + 40)
-        ctx.lineTo(this.x, this.y)
-        ctx.stroke();
-        ctx.closePath()
-        ctx.beginPath()
-        ctx.fillStyle = this.color
-        ctx.moveTo(this.x + 1, this.y + 1)
-        ctx.lineTo(this.x + 40 - 1, this.y + 1)
-        ctx.lineTo(this.x + 40 - 1, this.y + 40 - 1)
-        ctx.lineTo(this.x + 1, this.y + 40 - 1)
-        ctx.lineTo(this.x + 1, this.y - 1)
-        ctx.fill()
-        ctx.beginPath();
-        ctx.moveTo(this.x + 20, this.y)
-        ctx.lineTo(this.x + 20, this.y + 40)
-        ctx.moveTo(this.x, this.y + 20)
-        ctx.lineTo(this.x + 40, this.y + 20)
-        ctx.stroke();
-        ctx.closePath()
-    }
+
 },
-function (){
+function () {
     this.y = 0,
-    this.x = 200,
-    this.color = "#78f9b0",
-    this.fall = 2,
-    this.xLimit = 20,
-    this.atualize = function () {
-        if (this.y < 540) {
-            this.y += this.fall
+        this.x = 200,
+        this.color = "#78f9b0",
+        this.fall = 2,
+        this.xLimit = 20,
+        this.yLimit = 20,
+        this.atualize = function () {
+            if (this.y < 560 - this.yLimit) {
+                this.y += this.fall
+            }
+            else if (this.y >= 560 - this.yLimit) {
+                stop = true
+            }
+
+        },
+        this.draw = function () {
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y)
+            ctx.lineTo(this.x + 20, this.y)
+            ctx.lineTo(this.x + 20, this.y + 20)
+            ctx.lineTo(this.x, this.y + 20)
+            ctx.lineTo(this.x, this.y)
+            ctx.stroke();
+            ctx.closePath()
+            ctx.beginPath()
+            ctx.fillStyle = this.color
+            ctx.moveTo(this.x + 1, this.y + 1)
+            ctx.lineTo(this.x + 20 - 1, this.y + 1)
+            ctx.lineTo(this.x + 20 - 1, this.y + 20 - 1)
+            ctx.lineTo(this.x + 1, this.y + 20 - 1)
+            ctx.lineTo(this.x + 1, this.y - 1)
+            ctx.fill()
         }
-
-    },
-    this.draw = function(){
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y)
-        ctx.lineTo(this.x + 20, this.y)
-        ctx.lineTo(this.x + 20, this.y + 20)
-        ctx.lineTo(this.x, this.y + 20)
-        ctx.lineTo(this.x, this.y)
-        ctx.stroke();
-        ctx.closePath()
-        ctx.beginPath()
-        ctx.fillStyle = this.color
-        ctx.moveTo(this.x + 1, this.y + 1)
-        ctx.lineTo(this.x + 20 - 1, this.y + 1)
-        ctx.lineTo(this.x + 20 - 1, this.y + 20 - 1)
-        ctx.lineTo(this.x + 1, this.y + 20 - 1)
-        ctx.lineTo(this.x + 1, this.y - 1)
-        ctx.fill()
-    }
 }
-
 ]
+
 
 
 const game = createGame()
@@ -86,7 +93,7 @@ var block = new blocks[currentBlock]()
 
 function main() {
 
-    
+
     HEIGHT = innerHeight
     WIDTH = innerWidth
 
@@ -147,7 +154,7 @@ function createKeyboardListener() {
         notifyAll(command)
     }
 
-    return{
+    return {
         subscribe
     }
 }
@@ -162,7 +169,7 @@ function createGame() {
 
         const keyPressed = command.key
         const blockId = command.blockId
-        
+
         if (keyPressed == "ArrowLeft" && block.x > 0) {
             block.x -= 20
         }
@@ -179,15 +186,14 @@ function createGame() {
 
 // RUN
 function run() {
-    if(stop){
-        currentBlock = 1
+    if (stop) {
+        blockDraws.push(block)
+        currentBlock = Math.floor(Math.random()*blocks.length)
         block = new blocks[currentBlock]()
         stop = false
     }
-
     atualize()
     draw()
-    
     window.requestAnimationFrame(run)
 }
 
@@ -196,7 +202,9 @@ function draw() {
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     block.draw()
-    
+    for (blck of blockDraws) {
+        blck.draw()
+    }
 }
 
 
