@@ -17,6 +17,7 @@ var blocks = [function () {
             }
             else if (this.y >= 560 - this.yLimit) {
                 stop = true
+                this.y = 560 - this.yLimit
             }
         },
         this.draw = function () {
@@ -49,7 +50,7 @@ var blocks = [function () {
 function () {
     this.y = 0,
         this.x = 200,
-        this.color = "#78f9b0",
+        this.color = "#ffff00",
         this.fall = 2,
         this.xLimit = 20,
         this.yLimit = 20,
@@ -59,6 +60,7 @@ function () {
             }
             else if (this.y >= 560 - this.yLimit) {
                 stop = true
+                this.y = 560 - this.yLimit
             }
 
         },
@@ -143,15 +145,45 @@ function createKeyboardListener() {
 
     // Lendo as informações de input do usuario
     document.addEventListener("keydown", handleKeydown)
+    document.addEventListener("onkeypress", keyDown)
+    document.addEventListener("keyup", keyUp)
 
     function handleKeydown(event) {
-        const keyPressed = event.key
 
         const command = {
             blockId: currentBlock,
             key: event.key
         }
         notifyAll(command)
+    }
+
+
+    function keyUp(event) {
+        if (event.key == "ArrowDown") {
+            const command = {
+                blockId: currentBlock,
+                key: event.key,
+                keyUp: true
+            }
+            notifyAll(command)
+        }
+        else {
+            return
+        }
+    }
+    function keyDown(event) {
+        if (event.key == "ArrowDown") {
+            const command = {
+                blockId: currentBlock,
+                key: event.key,
+                keyUp: false
+            }
+            notifyAll(command)
+        }
+        else {
+            return
+        }
+
     }
 
     return {
@@ -165,18 +197,24 @@ function createKeyboardListener() {
 function createGame() {
     function moveBlock(command) {
         console.log(`Moving the block ${command.blockId} with ${command.key}`)
-
-
         const keyPressed = command.key
-        const blockId = command.blockId
 
+
+        if (keyPressed == "ArrowDown") {
+            if (command.keyUp == true) {
+                block.fall = 2
+            }
+            else {
+                block.fall = 10
+            }
+
+        }
         if (keyPressed == "ArrowLeft" && block.x > 0) {
             block.x -= 20
         }
-        else if (keyPressed == "ArrowRight" && block.x < 420 - block.xLimit) {
+        if (keyPressed == "ArrowRight" && block.x < 420 - block.xLimit) {
             block.x += 20
         }
-
     }
     return {
         moveBlock
@@ -188,7 +226,7 @@ function createGame() {
 function run() {
     if (stop) {
         blockDraws.push(block)
-        currentBlock = Math.floor(Math.random()*blocks.length)
+        currentBlock = Math.floor(Math.random() * blocks.length)
         block = new blocks[currentBlock]()
         stop = false
     }
