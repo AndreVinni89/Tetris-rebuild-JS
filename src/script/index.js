@@ -21,10 +21,10 @@ function main() {
     HEIGHT = innerHeight
     WIDTH = innerWidth
 
-    if (WIDTH >= 500) {
-        HEIGHT = 560
-        WIDTH = 420
-    }
+
+    HEIGHT = 28
+    WIDTH = 21
+
     // Atribuindo as caracteristicas do canvas
     canvas = document.createElement('canvas')
     canvas.height = HEIGHT

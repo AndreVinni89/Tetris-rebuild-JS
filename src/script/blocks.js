@@ -47,12 +47,12 @@ export let blocks = [function () {
 
 },
 function () {
-    this.y = 0,
-        this.x = 200,
+        this.y = 0,
+        this.x = 11,
         this.color = "#ffff00",
-        this.fall = 2,
-        this.xLimit = 20,
-        this.yLimit = 20,
+        this.fall = 0.001,
+        this.xLimit = 1,
+        this.yLimit = 1,
         this.atualize = function () {
             if (this.y < 560 - this.yLimit) {
                 this.y += this.fall
@@ -67,22 +67,8 @@ function () {
 
         },
         this.draw = function () {
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y)
-            ctx.lineTo(this.x + this.xLimit, this.y)
-            ctx.lineTo(this.x + this.xLimit, this.y + this.yLimit)
-            ctx.lineTo(this.x, this.y + this.yLimit)
-            ctx.lineTo(this.x, this.y)
-            ctx.stroke();
-            ctx.closePath()
-            ctx.beginPath()
             ctx.fillStyle = this.color
-            ctx.moveTo(this.x + 1, this.y + 1)
-            ctx.lineTo(this.x + 20 - 1, this.y + 1)
-            ctx.lineTo(this.x + 20 - 1, this.y + 20 - 1)
-            ctx.lineTo(this.x + 1, this.y + 20 - 1)
-            ctx.lineTo(this.x + 1, this.y - 1)
-            ctx.fill()
+            ctx.fillRect(this.x,this.y, 1, 1)
         }
 }
 ]

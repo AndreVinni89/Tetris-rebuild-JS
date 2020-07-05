@@ -26,6 +26,8 @@ h1{
 }
 
 canvas{
+    height: 560px;
+    width: 420px;
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -34,4 +36,8 @@ canvas{
     margin: auto;
     margin-top: 13vh;
     margin-bottom: 5vh;
+
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
 }
