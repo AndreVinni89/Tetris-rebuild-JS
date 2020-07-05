@@ -1,101 +1,23 @@
-var canvas, ctx, HEIGHT, WIDTH, frames = 0, currentBlock = 0, stop = false
+import { blocks } from './blocks.js'
+import { createKeyboardListener } from './keyboardListener.js'
+import { createGame } from './game.js'
 
-
+var canvas, HEIGHT, WIDTH, frames = 0
+export var ctx, currentBlock
+export var stop
+currentBlock = { block: Math.floor(Math.random() * blocks.length) }
 //Objetos de blocos 
-var blockDraws = []
-
-var blocks = [function () {
-    this.y = 0,
-        this.x = 200,
-        this.xLimit = 40,
-        this.yLimit = 40,
-        this.color = "#78f9b0",
-        this.fall = 2,
-        this.atualize = function () {
-            if (this.y < 560 - this.yLimit) {
-                this.y += this.fall
-            }
-            else if (this.y >= 560 - this.yLimit) {
-                stop = true
-                this.y = 560 - this.yLimit
-            }
-        },
-        this.draw = function () {
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y)
-            ctx.lineTo(this.x + 40, this.y)
-            ctx.lineTo(this.x + 40, this.y + 40)
-            ctx.lineTo(this.x, this.y + 40)
-            ctx.lineTo(this.x, this.y)
-            ctx.stroke();
-            ctx.closePath()
-            ctx.beginPath()
-            ctx.fillStyle = this.color
-            ctx.moveTo(this.x + 1, this.y + 1)
-            ctx.lineTo(this.x + 40 - 1, this.y + 1)
-            ctx.lineTo(this.x + 40 - 1, this.y + 40 - 1)
-            ctx.lineTo(this.x + 1, this.y + 40 - 1)
-            ctx.lineTo(this.x + 1, this.y - 1)
-            ctx.fill()
-            ctx.beginPath();
-            ctx.moveTo(this.x + 20, this.y)
-            ctx.lineTo(this.x + 20, this.y + 40)
-            ctx.moveTo(this.x, this.y + 20)
-            ctx.lineTo(this.x + 40, this.y + 20)
-            ctx.stroke();
-            ctx.closePath()
-        }
-
-},
-function () {
-    this.y = 0,
-        this.x = 200,
-        this.color = "#ffff00",
-        this.fall = 2,
-        this.xLimit = 20,
-        this.yLimit = 20,
-        this.atualize = function () {
-            if (this.y < 560 - this.yLimit) {
-                this.y += this.fall
-            }
-            else if (this.y >= 560 - this.yLimit) {
-                stop = true
-                this.y = 560 - this.yLimit
-            }
-
-        },
-        this.draw = function () {
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y)
-            ctx.lineTo(this.x + 20, this.y)
-            ctx.lineTo(this.x + 20, this.y + 20)
-            ctx.lineTo(this.x, this.y + 20)
-            ctx.lineTo(this.x, this.y)
-            ctx.stroke();
-            ctx.closePath()
-            ctx.beginPath()
-            ctx.fillStyle = this.color
-            ctx.moveTo(this.x + 1, this.y + 1)
-            ctx.lineTo(this.x + 20 - 1, this.y + 1)
-            ctx.lineTo(this.x + 20 - 1, this.y + 20 - 1)
-            ctx.lineTo(this.x + 1, this.y + 20 - 1)
-            ctx.lineTo(this.x + 1, this.y - 1)
-            ctx.fill()
-        }
-}
-]
+export var blockDraws = []
 
 
 
-const game = createGame()
+export const game = createGame()
 const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
-var block = new blocks[currentBlock]()
+export var block = { block: new blocks[currentBlock.block]() }
 
 
 function main() {
-
-
     HEIGHT = innerHeight
     WIDTH = innerWidth
 
@@ -103,7 +25,6 @@ function main() {
         HEIGHT = 560
         WIDTH = 420
     }
-
     // Atribuindo as caracteristicas do canvas
     canvas = document.createElement('canvas')
     canvas.height = HEIGHT
@@ -115,121 +36,12 @@ function main() {
     /** @type {CanvasRenderingContext2D} */
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
-
-
-
     //Rodando o game
     run()
-
 }
-
-//Camada de Input
-function createKeyboardListener() {
-    const state = {
-        observers: []
-    }
-
-
-    function subscribe(observerFunction) {
-        state.observers.push(observerFunction)
-    }
-
-
-    function notifyAll(command) {
-        console.log(`Notifying ${state.observers.length} observers`)
-
-        for (const observerFunction of state.observers) {
-            observerFunction(command)
-        }
-    }
-
-    // Lendo as informações de input do usuario
-    document.addEventListener("keydown", handleKeydown)
-    document.addEventListener("onkeypress", keyDown)
-    document.addEventListener("keyup", keyUp)
-
-    function handleKeydown(event) {
-
-        const command = {
-            blockId: currentBlock,
-            key: event.key
-        }
-        notifyAll(command)
-    }
-
-
-    function keyUp(event) {
-        if (event.key == "ArrowDown") {
-            const command = {
-                blockId: currentBlock,
-                key: event.key,
-                keyUp: true
-            }
-            notifyAll(command)
-        }
-        else {
-            return
-        }
-    }
-    function keyDown(event) {
-        if (event.key == "ArrowDown") {
-            const command = {
-                blockId: currentBlock,
-                key: event.key,
-                keyUp: false
-            }
-            notifyAll(command)
-        }
-        else {
-            return
-        }
-
-    }
-
-    return {
-        subscribe
-    }
-}
-
-
-
-// Camada de regras do jogos
-function createGame() {
-    function moveBlock(command) {
-        console.log(`Moving the block ${command.blockId} with ${command.key}`)
-        const keyPressed = command.key
-
-
-        if (keyPressed == "ArrowDown") {
-            if (command.keyUp == true) {
-                block.fall = 2
-            }
-            else {
-                block.fall = 10
-            }
-
-        }
-        if (keyPressed == "ArrowLeft" && block.x > 0) {
-            block.x -= 20
-        }
-        if (keyPressed == "ArrowRight" && block.x < 420 - block.xLimit) {
-            block.x += 20
-        }
-    }
-    return {
-        moveBlock
-    }
-}
-
 
 // RUN
 function run() {
-    if (stop) {
-        blockDraws.push(block)
-        currentBlock = Math.floor(Math.random() * blocks.length)
-        block = new blocks[currentBlock]()
-        stop = false
-    }
     atualize()
     draw()
     window.requestAnimationFrame(run)
@@ -239,8 +51,9 @@ function run() {
 function draw() {
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
-    block.draw()
-    for (blck of blockDraws) {
+    block.block.draw()
+    for (let blck of blockDraws) {
+        // blck.draw()
         blck.draw()
     }
 }
@@ -248,7 +61,7 @@ function draw() {
 
 function atualize() {
     frames++
-    block.atualize()
+    block.block.atualize()
 }
 
 main()
