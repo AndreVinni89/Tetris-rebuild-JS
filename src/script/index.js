@@ -11,7 +11,14 @@ export var currentBlock = { block: Math.floor(Math.random() * blocks.length) }
 
 //Objetos de blocos 
 export var blockDraws = []
-
+var matrizGame = []
+for(let conty=0; conty < 28; conty++){
+    matrizGame.push([])
+    for(let contx=0; contx<21;contx++){
+        matrizGame[conty].push(0)
+    }
+}
+export var matrizGame
 
 
 export const game = createGame()
@@ -46,7 +53,7 @@ function run() {
     atualize()
     draw()
     setTimeout(() => {window.requestAnimationFrame(run)}, 200)
-    
+    // console.log(matrizGame)
 }
 
 // Atualização da tela
@@ -56,6 +63,7 @@ function draw() {
     block.block.draw()
     for (let blck of blockDraws) {
         blck.draw()
+        blck.setPosition()
     }
 }
 

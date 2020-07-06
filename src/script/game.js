@@ -1,8 +1,9 @@
-import { block, blockDraws } from './index.js'
+import { block, blockDraws, matrizGame } from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
 export function createGame() {
+
     function moveBlock(command) {
         console.log(`Moving the block ${command.blockId} with ${command.key}`)
         const keyPressed = command.key
@@ -13,7 +14,7 @@ export function createGame() {
                 block.block.fall = 1
             }
             else {
-                block.block.fall = 3
+                block.block.fall = 2
             }
 
         }
@@ -26,25 +27,29 @@ export function createGame() {
     }
     function stop(command) {
         if (command.stopped) {
-            blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, pixels: block.block.pixels, draw: block.block.draw })
+            blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, draw: block.block.draw, setPosition: block.block.setPosition })
             currentBlock.block = Math.floor(Math.random() * blocks.length)
             block.block = new blocks[currentBlock.block]()
         }
     }
     function collisionDetect() {
-   
-        for (let blck of blockDraws) {
-            for(let pixels of block.block.pixels){
-                for(let scenaryPixels of blck.pixels){
-                    console.log(pixels[0], scenaryPixels[0])
-                    if(pixels[0] == scenaryPixels[0] && pixels[1]== scenaryPixels[1]){
-                        
-                        console.log('Colidiu')   
+        if (block.block.y >= 0) {
+            if (currentBlock.block == 0) {
+                if(matrizGame[block.block.y][block.block.x] == 1||
+                    matrizGame[block.block.y][block.block.x+1] == 1||
+                    matrizGame[block.block.y+1][block.block.x] == 1||
+                    matrizGame[block.block.y+1][block.block.x+1] == 1){
+                        console.log("Colidius!!!!")
                     }
-
-                }
             }
-      
+            else if (currentBlock.block == 1) {
+
+
+                if (matrizGame[block.block.y][block.block.x] == 1) {
+                    console.log("Colidiu!!!")
+                }
+
+            }
         }
     }
     return {
