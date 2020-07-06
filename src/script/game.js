@@ -18,10 +18,10 @@ export function createGame() {
             }
 
         }
-        if (keyPressed == "ArrowLeft" && block.block.x > 0) {
+        if (keyPressed == "ArrowLeft" && block.block.x > 0 && matrizGame[block.block.y][block.block.x - 1] == 0) {
             block.block.x -= 1
         }
-        if (keyPressed == "ArrowRight" && block.block.x < 21 - block.block.xLimit) {
+        if (keyPressed == "ArrowRight" && block.block.x < 21 - block.block.xLimit && matrizGame[block.block.y][block.block.xLimit + block.block.x] == 0 ) {
             block.block.x += 1
         }
     }
@@ -39,14 +39,22 @@ export function createGame() {
                     matrizGame[block.block.y][block.block.x+1] == 1||
                     matrizGame[block.block.y+1][block.block.x] == 1||
                     matrizGame[block.block.y+1][block.block.x+1] == 1){
-                        console.log("Colidius!!!!")
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
                     }
             }
             else if (currentBlock.block == 1) {
 
 
                 if (matrizGame[block.block.y][block.block.x] == 1) {
-                    console.log("Colidiu!!!")
+                    let command = {
+                        stopped: true
+                    }
+                    block.block.y -= 1
+                    stop(command)
                 }
 
             }
