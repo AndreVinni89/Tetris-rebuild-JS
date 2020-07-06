@@ -3,9 +3,12 @@ import { createKeyboardListener } from './keyboardListener.js'
 import { createGame } from './game.js'
 
 var canvas, HEIGHT, WIDTH, frames = 0
-export var ctx, currentBlock
-export var stop
-currentBlock = { block: Math.floor(Math.random() * blocks.length) }
+export var ctx
+
+export var currentBlock = { block: Math.floor(Math.random() * blocks.length) }
+
+// export var currentBlock = { block: 0 }
+
 //Objetos de blocos 
 export var blockDraws = []
 
@@ -16,11 +19,9 @@ const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
 export var block = { block: new blocks[currentBlock.block]() }
 
-
 function main() {
     HEIGHT = innerHeight
     WIDTH = innerWidth
-
 
     HEIGHT = 28
     WIDTH = 21
@@ -44,7 +45,8 @@ function main() {
 function run() {
     atualize()
     draw()
-    window.requestAnimationFrame(run)
+    setTimeout(() => {window.requestAnimationFrame(run)}, 200)
+    
 }
 
 // Atualização da tela
@@ -53,7 +55,6 @@ function draw() {
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     block.block.draw()
     for (let blck of blockDraws) {
-        // blck.draw()
         blck.draw()
     }
 }
@@ -61,7 +62,9 @@ function draw() {
 
 function atualize() {
     frames++
+    game.collisionDetect()
     block.block.atualize()
+    
 }
 
 main()

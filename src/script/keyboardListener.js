@@ -25,6 +25,7 @@ export function createKeyboardListener() {
     document.addEventListener("keyup", keyUp)
 
     function handleKeydown(event) {
+        
         const command = {
             blockId: currentBlock.block,
             key: event.key
@@ -37,7 +38,7 @@ export function createKeyboardListener() {
         if (event.key == "ArrowDown") {
             const command = {
                 blockId: currentBlock.block,
-                key: event.key,
+                key: event.key, 
                 keyUp: true
             }
             notifyAll(command)
