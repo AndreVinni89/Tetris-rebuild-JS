@@ -12,7 +12,7 @@ export function createKeyboardListener() {
 
 
     function notifyAll(command) {
-        console.log(`Notifying ${state.observers.length} observers`)
+        // console.log(`Notifying ${state.observers.length} observers`)
 
         for (const observerFunction of state.observers) {
             observerFunction(command)

@@ -4,7 +4,7 @@ export let blocks = [function () {
         this.x = 11,
         this.xLimit = 2,
         this.yLimit = 2,
-        this.color = "#78f9b0",
+        this.color = "#fa2323",
         this.fall = 1,
 
         this.atualize = function () {

@@ -1,11 +1,11 @@
-import { block, blockDraws, matrizGame } from './index.js'
+import { block, blockDraws, matrizGame, ctx } from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
 export function createGame() {
 
     function moveBlock(command) {
-        console.log(`Moving the block ${command.blockId} with ${command.key}`)
+        // console.log(`Moving the block ${command.blockId} with ${command.key}`)
         const keyPressed = command.key
 
 
@@ -27,9 +27,15 @@ export function createGame() {
     }
     function stop(command) {
         if (command.stopped) {
+            block.block.setPosition()
+
             blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, draw: block.block.draw, setPosition: block.block.setPosition })
             currentBlock.block = Math.floor(Math.random() * blocks.length)
+
+            detectCompleteLine()
+
             block.block = new blocks[currentBlock.block]()
+        
         }
     }
     function collisionDetect() {
@@ -47,8 +53,6 @@ export function createGame() {
                     }
             }
             else if (currentBlock.block == 1) {
-
-
                 if (matrizGame[block.block.y][block.block.x] == 1) {
                     let command = {
                         stopped: true
@@ -60,7 +64,56 @@ export function createGame() {
             }
         }
     }
+
+    function detectCompleteLine(){
+        let contBlocks=0
+        for(let conty=0; conty < 28; conty++){
+            console.log(conty)
+            for(let contx=0; contx<21;contx++){
+                if(matrizGame[conty][contx] == 0){
+                    break
+                }
+                else{
+                    contBlocks++
+                }
+            }
+            if(contBlocks == 21){
+                deleteLine(conty)
+                
+            }
+            contBlocks = 0
+        }
+
+
+    }
+    function drawBlocks() {
+        for(let conty=0; conty < 28; conty++){
+            for(let contx=0; contx<21;contx++){
+                if(matrizGame[conty][contx] == 1){
+                    ctx.fillStyle = "#78f9b0"
+                    ctx.fillRect(contx, conty, 1, 1)
+                }
+            }
+        }
+    }
+    function deleteLine(y){
+        console.log("Excluindo a linha: " + y)
+        for(let x = 0; x < 21; x++){
+            matrizGame[y][x] = 0
+        }
+        for(let line=y; line >= 0;line--){
+            if(line != 0){
+                matrizGame[line] = matrizGame[line-1]
+            }
+            else{
+                for(let x = 0; x < 21; x++){
+                    matrizGame[0][x] = 0
+                }
+            }
+        }
+  
+    }
     return {
-        moveBlock, stop, collisionDetect
+        moveBlock, stop, collisionDetect, drawBlocks
     }
 }

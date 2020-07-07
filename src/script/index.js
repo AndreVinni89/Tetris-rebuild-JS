@@ -15,7 +15,13 @@ var matrizGame = []
 for(let conty=0; conty < 28; conty++){
     matrizGame.push([])
     for(let contx=0; contx<21;contx++){
-        matrizGame[conty].push(0)
+        if(conty == 27 || conty == 26){
+            matrizGame[conty].push(1)
+        }
+        else{
+            matrizGame[conty].push(0)
+        }
+        
     }
 }
 export var matrizGame
@@ -50,6 +56,7 @@ function main() {
 
 // RUN
 function run() {
+    
     atualize()
     draw()
     setTimeout(() => {window.requestAnimationFrame(run)}, 200)
@@ -58,13 +65,12 @@ function run() {
 
 // Atualização da tela
 function draw() {
+    
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     block.block.draw()
-    for (let blck of blockDraws) {
-        blck.draw()
-        blck.setPosition()
-    }
+    game.drawBlocks()
+
 }
 
 
@@ -72,7 +78,7 @@ function atualize() {
     frames++
     game.collisionDetect()
     block.block.atualize()
-    
+
 }
 
 main()
