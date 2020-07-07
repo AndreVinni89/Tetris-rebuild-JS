@@ -71,6 +71,7 @@ function draw() {
     block.block.draw()
     game.drawBlocks()
 
+
 }
 
 
