@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
+    color: #03043f;
 }
 
 body{
@@ -42,4 +42,24 @@ canvas{
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     image-rendering: -moz-crisp-edges;
+}
+
+div{
+   margin-left: 10px; 
+}
+
+#next{
+    height: 120px;
+    width: 120px;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+    margin-top: 17vh;
+    margin-bottom: 5vh;
+
+    margin-left: 22px;
+
 }

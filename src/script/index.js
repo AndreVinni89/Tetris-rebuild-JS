@@ -4,8 +4,8 @@ import { createGame } from './game.js'
 
 var canvas, HEIGHT, WIDTH, frames = 0
 export var ctx
-
-export var currentBlock = { block: Math.floor(Math.random() * blocks.length) }
+export var nextBlockCtx
+export var currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length)}
 
 // export var currentBlock = { block: 0 }
 
@@ -30,7 +30,7 @@ export var matrizGame
 export const game = createGame()
 const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
-export var block = { block: new blocks[currentBlock.block]() }
+export var block = { block: new blocks[currentBlock.block]() , nextBlock: new blocks[currentBlock.nextBlock]()}
 
 function main() {
     HEIGHT = innerHeight
@@ -50,6 +50,18 @@ function main() {
     /** @type {CanvasRenderingContext2D} */
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
+
+    let nextBlockCanvas = document.createElement('canvas')
+    nextBlockCanvas.height = 6
+    nextBlockCanvas.width = 6
+    nextBlockCanvas.style.border = "1px solid black"
+    nextBlockCanvas.style.borderRadius = "3px"
+    nextBlockCanvas.id = "next"
+    nextBlockCtx = nextBlockCanvas.getContext("2d")
+    document.body.appendChild(nextBlockCanvas)
+    nextBlockCtx.fillStyle = "#464242"
+    nextBlockCtx.fillRect(0, 0, 6, 6)
+
     //Rodando o game
     run()
 }
@@ -70,6 +82,7 @@ function draw() {
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
     block.block.draw()
     game.drawBlocks()
+    
 
 
 }
