@@ -17,7 +17,6 @@ export function createGame() {
             else {
                 block.block.fall = 3
             }
-
         }
         if (keyPressed == "ArrowLeft" && block.block.x > 0 && matrizGame[block.block.y][block.block.x - 1] == 0) {
             block.block.x -= 1
@@ -25,12 +24,35 @@ export function createGame() {
         if (keyPressed == "ArrowRight" && block.block.x < 21 - block.block.xLimit && matrizGame[block.block.y][block.block.xLimit + block.block.x] == 0) {
             block.block.x += 1
         }
+        if (keyPressed == "ArrowUp" || keyPressed == " ") {
+            flipBlock()
+        }
     }
+
+    function flipBlock() {
+        if (currentBlock.block > 1 && currentBlock.block < 4) {
+            console.log("Flippando")
+            if (block.block.position == 0) {
+                block.block.position = 1
+                let sup = block.block.xLimit
+                block.block.xLimit = block.block.yLimit
+                block.block.yLimit = sup
+            }
+            else {
+                block.block.position = 0
+                let sup = block.block.xLimit
+                block.block.xLimit = block.block.yLimit
+                block.block.yLimit = sup
+            }
+
+        }
+    }
+
     function stop(command) {
         if (command.stopped) {
             block.block.setPosition()
 
-            blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, draw: block.block.draw, setPosition: block.block.setPosition })
+            blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, position: block.block.position, draw: block.block.draw, setPosition: block.block.setPosition })
             currentBlock.block = currentBlock.nextBlock
             currentBlock.nextBlock = Math.floor(Math.random() * blocks.length)
 
@@ -38,7 +60,6 @@ export function createGame() {
 
             block.block = new blocks[currentBlock.block]()
             block.nextBlock = new blocks[currentBlock.nextBlock]()
-            console.log(block.nextBlock)
             nextBlockCtx.fillStyle = "#464242"
             nextBlockCtx.fillRect(0, 0, 7, 7)
             block.nextBlock.draw(nextBlockCtx, true)
@@ -69,19 +90,60 @@ export function createGame() {
 
             }
             else if (currentBlock.block == 2) {
-                if (matrizGame[block.block.y][block.block.x] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 1] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 2] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 3] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 4] == 1) {
-                    let command = {
-                        stopped: true
+                if (block.block.position == 0) {
+                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 2] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 3] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 4] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
                     }
-                    block.block.y -= 1
-                    stop(command)
+                }
+                else {
+                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 2][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 3][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 4][block.block.x] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
+                    }
                 }
             }
             else if (currentBlock.block == 3) {
+                if (block.block.position == 0) {
+                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 2] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
+                    }
+                }
+                else {
+                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 2][block.block.x + 1] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
+                    }
+                }
+            }
+            else if (currentBlock.block == 4) {
                 if (matrizGame[block.block.y][block.block.x] == 1 ||
                     matrizGame[block.block.y][block.block.x + 1] == 1 ||
                     matrizGame[block.block.y][block.block.x + 2] == 1 ||
@@ -93,18 +155,7 @@ export function createGame() {
                     stop(command)
                 }
             }
-            else if (currentBlock.block == 4) {
-                if (matrizGame[block.block.y][block.block.x] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 1] == 1 ||
-                    matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
-                    matrizGame[block.block.y + 1][block.block.x + 2] == 1) {
-                    let command = {
-                        stopped: true
-                    }
-                    block.block.y -= 1
-                    stop(command)
-                }
-            }
+
         }
     }
 

@@ -25,7 +25,7 @@ export function createKeyboardListener() {
     document.addEventListener("keyup", keyUp)
 
     function handleKeydown(event) {
-        
+        // console.log(event.key)
         const command = {
             blockId: currentBlock.block,
             key: event.key
