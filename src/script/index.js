@@ -5,23 +5,23 @@ import { createGame } from './game.js'
 var canvas, HEIGHT, WIDTH, frames = 0
 export var ctx
 export var nextBlockCtx
-export var currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length)}
+export var currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
 
 // export var currentBlock = { block: 0 }
 
 //Objetos de blocos 
 export var blockDraws = []
 var matrizGame = []
-for(let conty=0; conty < 28; conty++){
+for (let conty = 0; conty < 28; conty++) {
     matrizGame.push([])
-    for(let contx=0; contx<21;contx++){
-        if(conty == 27 || conty == 26){
+    for (let contx = 0; contx < 21; contx++) {
+        if (conty == 27 || conty == 26) {
             matrizGame[conty].push(1)
         }
-        else{
+        else {
             matrizGame[conty].push(0)
         }
-        
+
     }
 }
 export var matrizGame
@@ -30,7 +30,7 @@ export var matrizGame
 export const game = createGame()
 const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
-export var block = { block: new blocks[currentBlock.block]() , nextBlock: new blocks[currentBlock.nextBlock]()}
+export var block = { block: new blocks[currentBlock.block](), nextBlock: new blocks[currentBlock.nextBlock]() }
 
 function main() {
     HEIGHT = innerHeight
@@ -52,15 +52,16 @@ function main() {
     document.body.appendChild(canvas)
 
     let nextBlockCanvas = document.createElement('canvas')
-    nextBlockCanvas.height = 6
-    nextBlockCanvas.width = 6
+    nextBlockCanvas.height = 7
+    nextBlockCanvas.width = 7
     nextBlockCanvas.style.border = "1px solid black"
     nextBlockCanvas.style.borderRadius = "3px"
     nextBlockCanvas.id = "next"
     nextBlockCtx = nextBlockCanvas.getContext("2d")
     document.body.appendChild(nextBlockCanvas)
     nextBlockCtx.fillStyle = "#464242"
-    nextBlockCtx.fillRect(0, 0, 6, 6)
+    nextBlockCtx.fillRect(0, 0, 7, 7)
+    block.nextBlock.draw(nextBlockCtx, true)
 
     //Rodando o game
     run()
@@ -68,21 +69,21 @@ function main() {
 
 // RUN
 function run() {
-    
+
     atualize()
     draw()
-    setTimeout(() => {window.requestAnimationFrame(run)}, 200)
+    setTimeout(() => { window.requestAnimationFrame(run) }, 200)
     // console.log(matrizGame)
 }
 
 // Atualização da tela
 function draw() {
-    
+
     ctx.fillStyle = "#464242"
     ctx.fillRect(0, 0, WIDTH, HEIGHT)
-    block.block.draw()
+    block.block.draw(ctx)
     game.drawBlocks()
-    
+
 
 
 }

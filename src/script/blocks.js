@@ -1,4 +1,4 @@
-import { ctx, game, matrizGame } from './index.js'
+import { game, matrizGame } from './index.js'
 export let blocks = [function () {
     this.y = -2,
         this.x = 11,
@@ -26,12 +26,23 @@ export let blocks = [function () {
             matrizGame[this.y + 1][this.x] = 1
             matrizGame[this.y + 1][this.x + 1] = 1
         },
-        this.draw = function () {
-            ctx.fillStyle = this.color
-            ctx.fillRect(this.x, this.y, 1, 1)
-            ctx.fillRect(this.x + 1, this.y, 1, 1)
-            ctx.fillRect(this.x, this.y + 1, 1, 1)
-            ctx.fillRect(this.x + 1, this.y + 1, 1, 1)
+        this.draw = function (ctx, next) {
+            if (next) {
+                console.log("Desenhando")
+                ctx.fillStyle = this.color
+                ctx.fillRect(2, 3, 1, 1)
+                ctx.fillRect(2 + 1, 3, 1, 1)
+                ctx.fillRect(2, 3 + 1, 1, 1)
+                ctx.fillRect(2 + 1, 3 + 1, 1, 1)
+            }
+            else {
+
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, 1, 1)
+                ctx.fillRect(this.x + 1, this.y, 1, 1)
+                ctx.fillRect(this.x, this.y + 1, 1, 1)
+                ctx.fillRect(this.x + 1, this.y + 1, 1, 1)
+            }
         }
 },
 function () {
@@ -58,10 +69,15 @@ function () {
         this.setPosition = function () {
             matrizGame[this.y][this.x] = 1
         },
-        this.draw = function () {
-            ctx.fillStyle = this.color
-            ctx.fillRect(this.x, this.y, 1, 1)
-
+        this.draw = function (ctx, next) {
+            if (next) {
+                ctx.fillStyle = this.color
+                ctx.fillRect(3, 3, 1, 1)
+            }
+            else {
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, 1, 1)
+            }
         }
 },
 function () {
@@ -82,7 +98,6 @@ function () {
                 this.y = 28 - this.yLimit
                 game.stop(command)
             }
-
         },
         this.setPosition = function () {
             matrizGame[this.y][this.x] = 1
@@ -91,13 +106,23 @@ function () {
             matrizGame[this.y][this.x + 3] = 1
             matrizGame[this.y][this.x + 4] = 1
         },
-        this.draw = function () {
-            ctx.fillStyle = this.color
-            ctx.fillRect(this.x, this.y, 1, 1)
-            ctx.fillRect(this.x + 1, this.y, 1, 1)
-            ctx.fillRect(this.x + 2, this.y, 1, 1)
-            ctx.fillRect(this.x + 3, this.y, 1, 1)
-            ctx.fillRect(this.x + 4, this.y, 1, 1)
+        this.draw = function (ctx, next) {
+            if (next) {
+                ctx.fillStyle = this.color
+                ctx.fillRect(1, 3, 1, 1)
+                ctx.fillRect(1 + 1, 3, 1, 1)
+                ctx.fillRect(1 + 2, 3, 1, 1)
+                ctx.fillRect(1 + 3, 3, 1, 1)
+                ctx.fillRect(1 + 4, 3, 1, 1)
+            }
+            else {
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, 1, 1)
+                ctx.fillRect(this.x + 1, this.y, 1, 1)
+                ctx.fillRect(this.x + 2, this.y, 1, 1)
+                ctx.fillRect(this.x + 3, this.y, 1, 1)
+                ctx.fillRect(this.x + 4, this.y, 1, 1)
+            }
 
         }
 },
@@ -125,14 +150,24 @@ function () {
             matrizGame[this.y][this.x] = 1
             matrizGame[this.y][this.x + 1] = 1
             matrizGame[this.y][this.x + 2] = 1
-            matrizGame[this.y+1][this.x + 1] = 1
+            matrizGame[this.y + 1][this.x + 1] = 1
         },
-        this.draw = function () {
-            ctx.fillStyle = this.color
-            ctx.fillRect(this.x, this.y, 1, 1)
-            ctx.fillRect(this.x + 1, this.y, 1, 1)
-            ctx.fillRect(this.x + 2, this.y, 1, 1)
-            ctx.fillRect(this.x + 1, this.y + 1, 1, 1)
+        this.draw = function (ctx, next) {
+            if(next){
+                ctx.fillStyle = this.color
+                ctx.fillRect(2, 3, 1, 1)
+                ctx.fillRect(2 + 1, 3, 1, 1)
+                ctx.fillRect(2 + 2, 3, 1, 1)
+                ctx.fillRect(2 + 1, 3 + 1, 1, 1)
+            }
+            else{
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, 1, 1)
+                ctx.fillRect(this.x + 1, this.y, 1, 1)
+                ctx.fillRect(this.x + 2, this.y, 1, 1)
+                ctx.fillRect(this.x + 1, this.y + 1, 1, 1)
+            }
+            
         }
 },
 function () {
@@ -161,12 +196,22 @@ function () {
             matrizGame[this.y + 1][this.x + 1] = 1
             matrizGame[this.y + 1][this.x + 2] = 1
         },
-        this.draw = function () {
-            ctx.fillStyle = this.color
-            ctx.fillRect(this.x, this.y, 1, 1)
-            ctx.fillRect(this.x + 1, this.y, 1, 1)
-            ctx.fillRect(this.x + 1, this.y + 1, 1, 1)
-            ctx.fillRect(this.x + 2, this.y + 1, 1, 1)
+        this.draw = function (ctx, next) {
+            if (next){
+                ctx.fillStyle = this.color
+                ctx.fillRect(2, 3, 1, 1)
+                ctx.fillRect(2 + 1, 3, 1, 1)
+                ctx.fillRect(2 + 1, 3 + 1, 1, 1)
+                ctx.fillRect(2 + 2, 3 + 1, 1, 1)
+            }
+            else{
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, 1, 1)
+                ctx.fillRect(this.x + 1, this.y, 1, 1)
+                ctx.fillRect(this.x + 1, this.y + 1, 1, 1)
+                ctx.fillRect(this.x + 2, this.y + 1, 1, 1)
+            }
+            
         }
 }
 

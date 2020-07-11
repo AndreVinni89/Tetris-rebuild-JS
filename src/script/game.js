@@ -1,4 +1,4 @@
-import { block, blockDraws, matrizGame, ctx } from './index.js'
+import { block, blockDraws, matrizGame, ctx, nextBlockCtx } from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
@@ -33,12 +33,15 @@ export function createGame() {
             blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, draw: block.block.draw, setPosition: block.block.setPosition })
             currentBlock.block = currentBlock.nextBlock
             currentBlock.nextBlock = Math.floor(Math.random() * blocks.length)
-            
+
             detectCompleteLine()
 
             block.block = new blocks[currentBlock.block]()
             block.nextBlock = new blocks[currentBlock.nextBlock]()
-            block.nextBlock.draw()
+            console.log(block.nextBlock)
+            nextBlockCtx.fillStyle = "#464242"
+            nextBlockCtx.fillRect(0, 0, 7, 7)
+            block.nextBlock.draw(nextBlockCtx, true)
         }
     }
     function collisionDetect() {
@@ -108,7 +111,6 @@ export function createGame() {
     function detectCompleteLine() {
         let contBlocks = 0
         for (let conty = 0; conty < 28; conty++) {
-            console.log(conty)
             for (let contx = 0; contx < 21; contx++) {
                 if (matrizGame[conty][contx] == 0) {
                     break
@@ -137,7 +139,7 @@ export function createGame() {
         }
     }
     function deleteLine(y) {
-        console.log("Excluindo a linha: " + y)
+
         for (let x = 0; x < 21; x++) {
             matrizGame[y][x] = 0
         }

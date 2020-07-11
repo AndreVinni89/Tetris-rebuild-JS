@@ -49,8 +49,8 @@ div{
 }
 
 #next{
-    height: 120px;
-    width: 120px;
+    height: 140px;
+    width: 140px;
     position: absolute;
     top: 0px;
     bottom: 0px;
@@ -60,6 +60,6 @@ div{
     margin-top: 17vh;
     margin-bottom: 5vh;
 
-    margin-left: 22px;
+    margin-left: 15px;
 
 }
