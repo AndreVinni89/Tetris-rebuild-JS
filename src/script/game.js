@@ -1,4 +1,4 @@
-import { block, blockDraws, matrizGame, ctx, nextBlockCtx } from './index.js'
+import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling } from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
@@ -12,10 +12,16 @@ export function createGame() {
 
         if (keyPressed == "ArrowDown") {
             if (command.keyUp == true) {
-                block.block.fall = 1
+                clearInterval(falling)
+                speed.speed = 100
+                setInterval(() => {block.block.atualize()}, speed.speed)
+
             }
             else {
-                block.block.fall = 3
+                console.log(speed.speed)
+                clearInterval(falling)
+                speed.speed = 200
+                setInterval(() => {block.block.atualize()}, speed.speed)
             }
         }
         if (keyPressed == "ArrowLeft" && block.block.x > 0 && matrizGame[block.block.y][block.block.x - 1] == 0) {
@@ -31,7 +37,7 @@ export function createGame() {
 
     function flipBlock() {
         if (currentBlock.block > 1 && currentBlock.block < 4) {
-            console.log("Flippando")
+
             if (block.block.position == 0) {
                 block.block.position = 1
                 let sup = block.block.xLimit
@@ -45,6 +51,20 @@ export function createGame() {
                 block.block.yLimit = sup
             }
 
+        }
+        else if (currentBlock.block == 4) {
+            if (block.block.position == 3) {
+                block.block.position = 0
+                let sup = block.block.xLimit
+                block.block.xLimit = block.block.yLimit
+                block.block.yLimit = sup
+            }
+            else {
+                block.block.position++
+                let sup = block.block.xLimit
+                block.block.xLimit = block.block.yLimit
+                block.block.yLimit = sup
+            }
         }
     }
 
@@ -131,10 +151,10 @@ export function createGame() {
                     }
                 }
                 else {
-                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                    if (matrizGame[block.block.y + 2][block.block.x] == 1 ||
                         matrizGame[block.block.y + 1][block.block.x] == 1 ||
-                        matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
-                        matrizGame[block.block.y + 2][block.block.x + 1] == 1) {
+                        matrizGame[block.block.y][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1) {
                         let command = {
                             stopped: true
                         }
@@ -144,15 +164,53 @@ export function createGame() {
                 }
             }
             else if (currentBlock.block == 4) {
-                if (matrizGame[block.block.y][block.block.x] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 1] == 1 ||
-                    matrizGame[block.block.y][block.block.x + 2] == 1 ||
-                    matrizGame[block.block.y + 1][block.block.x + 1] == 1) {
-                    let command = {
-                        stopped: true
+                if (block.block.position == 0) {
+                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 2] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
                     }
-                    block.block.y -= 1
-                    stop(command)
+                }
+                else if (block.block.position == 1){
+                    if (matrizGame[block.block.y + 1][block.block.x] == 1 ||
+                        matrizGame[block.block.y][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 2][block.block.x + 1] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
+                    }
+                }
+                else if (block.block.position == 2){
+                    if (matrizGame[block.block.y][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 2] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
+                    }
+                }
+                else if (block.block.position == 3){
+                    if (matrizGame[block.block.y][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 2][block.block.x] == 1 ||
+                        matrizGame[block.block.y + 1][block.block.x + 1] == 1) {
+                        let command = {
+                            stopped: true
+                        }
+                        block.block.y -= 1
+                        stop(command)
+                    }
                 }
             }
 

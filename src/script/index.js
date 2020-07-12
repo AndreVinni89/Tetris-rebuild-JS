@@ -6,7 +6,7 @@ var canvas, HEIGHT, WIDTH, frames = 0
 export var ctx
 export var nextBlockCtx
 export var currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
-
+export var speed = {speed: 200}
 // export var currentBlock = { block: 0 }
 
 //Objetos de blocos 
@@ -72,7 +72,7 @@ function run() {
 
     atualize()
     draw()
-    setTimeout(() => { window.requestAnimationFrame(run) }, 200)
+    window.requestAnimationFrame(run)
     // console.log(matrizGame)
 }
 
@@ -92,8 +92,8 @@ function draw() {
 function atualize() {
     frames++
     game.collisionDetect()
-    block.block.atualize()
+    
 
 }
-
+export var falling = setInterval(() => { block.block.atualize() }, speed.speed)
 main()
