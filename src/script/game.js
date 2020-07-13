@@ -12,27 +12,29 @@ export function createGame() {
 
         if (keyPressed == "ArrowDown") {
             if (command.keyUp == true) {
-                if(speed.speed == speed.speedest){
+                if (speed.speed == speed.speedest) {
                     clearInterval(falling.fall)
                     speed.speed = speed.sup
-                    falling.fall = setInterval(() => {block.block.atualize()}, speed.speed)
-                    
+                    falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
+
                 }
             }
             else {
-                if (speed.speed > speed.speedest){
+                if (speed.speed > speed.speedest) {
                     clearInterval(falling.fall)
                     speed.speed = speed.speedest
-                    falling.fall = setInterval(() => {block.block.atualize()}, speed.speed)
+                    falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
                 }
-                
+
             }
         }
-        if (keyPressed == "ArrowLeft" && block.block.x > 0 && matrizGame[block.block.y][block.block.x - 1] == 0) {
-            block.block.x -= 1
-        }
-        if (keyPressed == "ArrowRight" && block.block.x < 21 - block.block.xLimit && matrizGame[block.block.y][block.block.xLimit + block.block.x] == 0) {
-            block.block.x += 1
+        if (block.block.y >= 0) {
+            if (keyPressed == "ArrowLeft" && block.block.x > 0 && matrizGame[block.block.y][block.block.x - 1] == 0) {
+                block.block.x -= 1
+            }
+            if (keyPressed == "ArrowRight" && block.block.x < 21 - block.block.xLimit && matrizGame[block.block.y][block.block.xLimit + block.block.x] == 0) {
+                block.block.x += 1
+            }
         }
         if (keyPressed == "ArrowUp" || keyPressed == " ") {
             flipBlock()
@@ -180,7 +182,7 @@ export function createGame() {
                         stop(command)
                     }
                 }
-                else if (block.block.position == 1){
+                else if (block.block.position == 1) {
                     if (matrizGame[block.block.y + 1][block.block.x] == 1 ||
                         matrizGame[block.block.y][block.block.x + 1] == 1 ||
                         matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
@@ -192,7 +194,7 @@ export function createGame() {
                         stop(command)
                     }
                 }
-                else if (block.block.position == 2){
+                else if (block.block.position == 2) {
                     if (matrizGame[block.block.y][block.block.x + 1] == 1 ||
                         matrizGame[block.block.y + 1][block.block.x] == 1 ||
                         matrizGame[block.block.y + 1][block.block.x + 1] == 1 ||
@@ -204,7 +206,7 @@ export function createGame() {
                         stop(command)
                     }
                 }
-                else if (block.block.position == 3){
+                else if (block.block.position == 3) {
                     if (matrizGame[block.block.y][block.block.x] == 1 ||
                         matrizGame[block.block.y + 1][block.block.x] == 1 ||
                         matrizGame[block.block.y + 2][block.block.x] == 1 ||
@@ -266,6 +268,9 @@ export function createGame() {
                 }
             }
         }
+
+    }
+    function detectLose() {
 
     }
     return {
