@@ -14,9 +14,9 @@ export function createGame() {
             if (command.keyUp == true) {
                 if(speed.speed == speed.speedest){
                     clearInterval(falling.fall)
-                    speed.speed = speed.speedest*2
+                    speed.speed = speed.sup
                     falling.fall = setInterval(() => {block.block.atualize()}, speed.speed)
-                    console.log(speed.speedest)
+                    
                 }
             }
             else {
