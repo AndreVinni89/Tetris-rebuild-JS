@@ -6,7 +6,7 @@ var canvas, HEIGHT, WIDTH, frames = 0
 export var ctx
 export var nextBlockCtx
 export var currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
-export var speed = {speed: 200}
+export var speed = {speed: 200, speedest:100}
 // export var currentBlock = { block: 0 }
 
 //Objetos de blocos 
@@ -95,5 +95,6 @@ function atualize() {
     
 
 }
-export var falling = setInterval(() => { block.block.atualize() }, speed.speed)
+export var falling = {fall: setInterval(() => { block.block.atualize() }, speed.speed)}
+falling.fall
 main()

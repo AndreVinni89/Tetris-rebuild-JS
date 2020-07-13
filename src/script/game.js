@@ -12,16 +12,20 @@ export function createGame() {
 
         if (keyPressed == "ArrowDown") {
             if (command.keyUp == true) {
-                clearInterval(falling)
-                speed.speed = 100
-                setInterval(() => {block.block.atualize()}, speed.speed)
-
+                if(speed.speed == speed.speedest){
+                    clearInterval(falling.fall)
+                    speed.speed = speed.speedest*2
+                    falling.fall = setInterval(() => {block.block.atualize()}, speed.speed)
+                    console.log(speed.speedest)
+                }
             }
             else {
-                console.log(speed.speed)
-                clearInterval(falling)
-                speed.speed = 200
-                setInterval(() => {block.block.atualize()}, speed.speed)
+                if (speed.speed > speed.speedest){
+                    clearInterval(falling.fall)
+                    speed.speed = speed.speedest
+                    falling.fall = setInterval(() => {block.block.atualize()}, speed.speed)
+                }
+                
             }
         }
         if (keyPressed == "ArrowLeft" && block.block.x > 0 && matrizGame[block.block.y][block.block.x - 1] == 0) {
