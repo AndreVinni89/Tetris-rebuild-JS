@@ -51,10 +51,11 @@ function main() {
     canvas.style.borderRadius = "3px"
 
     // Capturando o contexto do canvas
-    /** @type {CanvasRenderingContext2D} */
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
 
+    
+    
     let nextBlockCanvas = document.createElement('canvas')
     nextBlockCanvas.height = 7
     nextBlockCanvas.width = 7
@@ -79,9 +80,8 @@ function run() {
         window.requestAnimationFrame(run)
     }
     else {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.25)'
         ctx.fillRect(0, 0, 21, 28)
-
     }
     // console.log(matrizGame)
 }
@@ -120,12 +120,13 @@ function createCounterPoint() {
     var pointCounter
     function init(ind = 10) {
         stop()
-        pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}`; console.log(points) }, 500)
+        if(ind > 100){
+            ind = 100
+        }
+        pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}` }, 500)
     }
     function stop(reset=false) {
-        console.log("Stop")
         clearInterval(pointCounter)
-        console.log(points)
         if(reset){
             points = 0
         }
@@ -157,8 +158,6 @@ export function reset() {
     }
     blockDraws = []
     cp.init()
-
-
     currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
     speed = { speed: 200, speedest: 100, sup: 200 }
     lose = {}
