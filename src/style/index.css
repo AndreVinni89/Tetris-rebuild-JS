@@ -22,7 +22,7 @@ h1{
     color: var(--color1);
     text-align: center;
     text-shadow:var(--color5) 2px 2px 2px;
-    margin-top: 5vh;
+    margin-top: 2vh;
     font-size: 32pt;
 
 }
@@ -36,7 +36,7 @@ canvas{
     left: 0px;
     right: 0px;
     margin: auto;
-    margin-top: 13vh;
+    margin-top: 9vh;
     margin-bottom: 5vh;
 
     image-rendering: pixelated;

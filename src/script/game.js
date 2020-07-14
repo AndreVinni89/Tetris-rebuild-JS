@@ -91,15 +91,15 @@ export function createGame() {
             currentBlock.nextBlock = Math.floor(Math.random() * blocks.length)
             // blockDraws.length % 2 == 0 && 
             
-            if (blockDraws.length % 2 == 0 && !lose.lose && speed.sup > 50) {
+            if (!lose.lose && speed.sup > 50) {
                 console.log("Aumentando a velocidade")
                 speed.speed = speed.sup
-                speed.speed -= 10
-                speed.sup -= 10
+                speed.speed -= 2
+                speed.sup -= 2
                 speed.speedest = speed.speed / 2
                 clearInterval(falling.fall)
                 falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
-                cp.init(pps+=2)
+                cp.init(pps+=1)
             }
 
             block.block = new blocks[currentBlock.block]()
@@ -294,7 +294,7 @@ export function createGame() {
         console.log("Perdeu")
         clearInterval(falling.fall)
         lose.lose = true
-        cp.stop()
+        cp.stop(true)
 
     }
     function resetGame() {

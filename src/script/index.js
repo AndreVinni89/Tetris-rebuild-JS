@@ -119,11 +119,16 @@ function createCounterPoint() {
     var pointField = document.querySelector('#points')
     var pointCounter
     function init(ind = 10) {
-        pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}` }, 500)
+        stop()
+        pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}`; console.log(points) }, 500)
     }
-    function stop() {
-        points = 0
+    function stop(reset=false) {
+        console.log("Stop")
         clearInterval(pointCounter)
+        console.log(points)
+        if(reset){
+            points = 0
+        }
     }
     function addPoints(added){
         points += added
