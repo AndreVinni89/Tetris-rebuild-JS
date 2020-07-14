@@ -1,10 +1,10 @@
-import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset , pointCounter} from './index.js'
+import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset, cp } from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
 
 export function createGame() {
-
+    var pps = 10
     function moveBlock(command) {
         // console.log(`Moving the block ${command.blockId} with ${command.key}`)
         const keyPressed = command.key
@@ -43,7 +43,6 @@ export function createGame() {
             resetGame()
         }
     }
-
     function flipBlock() {
         if (currentBlock.block > 1 && currentBlock.block < 4) {
 
@@ -76,7 +75,6 @@ export function createGame() {
             }
         }
     }
-
     function stop(command) {
         if (command.stopped) {
             try {
@@ -85,17 +83,24 @@ export function createGame() {
             catch (e) {
                 loseGame()
             }
-
-
-
             detectCompleteLine()
 
 
             blockDraws.push({ x: block.block.x, y: block.block.y, xLimit: block.block.xLimit, yLimit: block.block.yLimit, color: block.block.color, position: block.block.position, draw: block.block.draw, setPosition: block.block.setPosition })
             currentBlock.block = currentBlock.nextBlock
             currentBlock.nextBlock = Math.floor(Math.random() * blocks.length)
-
-
+            // blockDraws.length % 2 == 0 && 
+            
+            if (blockDraws.length % 2 == 0 && !lose.lose && speed.sup > 50) {
+                console.log("Aumentando a velocidade")
+                speed.speed = speed.sup
+                speed.speed -= 10
+                speed.sup -= 10
+                speed.speedest = speed.speed / 2
+                clearInterval(falling.fall)
+                falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
+                cp.init(pps+=2)
+            }
 
             block.block = new blocks[currentBlock.block]()
             block.nextBlock = new blocks[currentBlock.nextBlock]()
@@ -237,7 +242,6 @@ export function createGame() {
             }
         }
     }
-
     function detectCompleteLine() {
         let contBlocks = 0
         for (let conty = 0; conty < 28; conty++) {
@@ -283,13 +287,14 @@ export function createGame() {
                 }
             }
         }
+        cp.addPoints(1000)
 
     }
     function loseGame() {
         console.log("Perdeu")
         clearInterval(falling.fall)
         lose.lose = true
-        clearInterval(pointCounter.points)
+        cp.stop()
 
     }
     function resetGame() {

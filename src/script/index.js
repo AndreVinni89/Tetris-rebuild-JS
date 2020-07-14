@@ -6,7 +6,7 @@ var canvas, HEIGHT, WIDTH, frames = 0
 export var ctx
 export var nextBlockCtx
 export var currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
-export var speed = { speed: 50, speedest: 20, sup: 50 }
+export var speed = { speed: 200, speedest: 100, sup: 200 }
 export var lose = {}
 // export var currentBlock = { block: 0 }
 
@@ -32,6 +32,7 @@ export var matrizGame
 export const game = createGame()
 const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
+export const cp = createCounterPoint()
 export var block = { block: new blocks[currentBlock.block](), nextBlock: new blocks[currentBlock.nextBlock]() }
 
 function main() {
@@ -65,7 +66,7 @@ function main() {
     nextBlockCtx.fillStyle = "#464242"
     nextBlockCtx.fillRect(0, 0, 7, 7)
     block.nextBlock.draw(nextBlockCtx, true)
-
+    cp.init()
     //Rodando o game
     run()
 }
@@ -108,15 +109,34 @@ export var falling = { fall: setInterval(() => { block.block.atualize() }, speed
 falling.fall
 
 
+
 var fpsField = document.querySelector("#fps")
 setInterval(() => { fpsField.innerHTML = `FPS: ${frames}`; frames = 0 }, 1000)
 
-var points = 0
-var pointField = document.querySelector('#points')
-export var pointCounter = {points: setInterval(() => { points += 10; pointField.innerHTML = `PONTOS: ${points}` }, 500)}
+
+function createCounterPoint() {
+    var points = 0
+    var pointField = document.querySelector('#points')
+    var pointCounter
+    function init(ind = 10) {
+        pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}` }, 500)
+    }
+    function stop() {
+        points = 0
+        clearInterval(pointCounter)
+    }
+    function addPoints(added){
+        points += added
+    }
+    return {
+        init, stop, addPoints
+    }
+
+}
+
+
 
 export function reset() {
-    console.log("Resentndooo")
     matrizGame = []
     for (let conty = 0; conty < 28; conty++) {
         matrizGame.push([])
@@ -131,11 +151,11 @@ export function reset() {
         }
     }
     blockDraws = []
-    points = 0
-    pointCounter.points = setInterval(() => { points += 10; pointField.innerHTML = `PONTOS: ${points}` }, 500)
+    cp.init()
+
 
     currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
-    speed = { speed: 50, speedest: 20, sup: 50 }
+    speed = { speed: 200, speedest: 100, sup: 200 }
     lose = {}
     block = { block: new blocks[currentBlock.block](), nextBlock: new blocks[currentBlock.nextBlock]() }
     falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
