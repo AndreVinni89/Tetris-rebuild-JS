@@ -1,4 +1,4 @@
-import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset } from './index.js'
+import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset , pointCounter} from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
@@ -289,6 +289,7 @@ export function createGame() {
         console.log("Perdeu")
         clearInterval(falling.fall)
         lose.lose = true
+        clearInterval(pointCounter.points)
 
     }
     function resetGame() {

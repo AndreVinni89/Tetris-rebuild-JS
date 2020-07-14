@@ -106,9 +106,14 @@ function atualize() {
 }
 export var falling = { fall: setInterval(() => { block.block.atualize() }, speed.speed) }
 falling.fall
-var fpsField = document.querySelector("#fps")
 
+
+var fpsField = document.querySelector("#fps")
 setInterval(() => { fpsField.innerHTML = `FPS: ${frames}`; frames = 0 }, 1000)
+
+var points = 0
+var pointField = document.querySelector('#points')
+export var pointCounter = {points: setInterval(() => { points += 10; pointField.innerHTML = `PONTOS: ${points}` }, 500)}
 
 export function reset() {
     console.log("Resentndooo")
@@ -126,6 +131,8 @@ export function reset() {
         }
     }
     blockDraws = []
+    points = 0
+    pointCounter.points = setInterval(() => { points += 10; pointField.innerHTML = `PONTOS: ${points}` }, 500)
 
     currentBlock = { block: Math.floor(Math.random() * blocks.length), nextBlock: Math.floor(Math.random() * blocks.length) }
     speed = { speed: 50, speedest: 20, sup: 50 }
