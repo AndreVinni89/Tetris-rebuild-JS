@@ -1,4 +1,4 @@
-import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset, cp } from './index.js'
+import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset, cp, ctxAux } from './index.js'
 import { currentBlock } from './index.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
@@ -36,7 +36,7 @@ export function createGame() {
                 block.block.x += 1
             }
         }
-        if (keyPressed == "ArrowUp" || keyPressed == " ") {
+        if (keyPressed == "ArrowUp" || keyPressed == " " || keyPressed == "Shift") {
             flipBlock()
         }
         if (keyPressed == "Enter" && lose.lose) {
@@ -90,16 +90,15 @@ export function createGame() {
             currentBlock.block = currentBlock.nextBlock
             currentBlock.nextBlock = Math.floor(Math.random() * blocks.length)
             // blockDraws.length % 2 == 0 && 
-            
+
             if (!lose.lose && speed.sup > 50) {
-                console.log("Aumentando a velocidade")
                 speed.speed = speed.sup
                 speed.speed -= 2
                 speed.sup -= 2
                 speed.speedest = speed.speed / 2
                 clearInterval(falling.fall)
                 falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
-                cp.init(pps+=1)
+                cp.init(pps += 1)
             }
 
             block.block = new blocks[currentBlock.block]()
@@ -294,12 +293,41 @@ export function createGame() {
         console.log("Perdeu")
         clearInterval(falling.fall)
         lose.lose = true
+
+
+        setPontuations()
+
+        ctxAux.font = "25px Arial"
+        ctxAux.fillText("PRESSIONE ENTER PARA", 60, 200)
+        ctxAux.fillText("RECOMEÇAR", 125, 250)
+        cp.printPoints()
+
+        const records = JSON.parse(window.localStorage.getItem('records'))
+
+        ctxAux.fillText(`RECORDS:`, 100, 330)
+        ctxAux.fillText(`1. ${records.pontuations[0]}`, 100, 360)
+        ctxAux.fillText(`2. ${records.pontuations[1]}`, 100, 390)
+        ctxAux.fillText(`3. ${records.pontuations[2]} `, 100, 420)
+        
+        
+
         cp.stop(true)
+  
+        
 
     }
     function resetGame() {
+        ctxAux.clearRect(0, 0, 420, 560)
         reset()
     }
+    function setPontuations(){
+        const records = JSON.parse(window.localStorage.getItem('records'))
+        records.pontuations.push(cp.returnPoints())
+        records.pontuations.sort()
+        records.pontuations.reverse()
+        window.localStorage.setItem(`records`, JSON.stringify(records))
+    }
+
     return {
         moveBlock, stop, collisionDetect, drawBlocks
     }

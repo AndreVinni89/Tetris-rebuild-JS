@@ -34,8 +34,11 @@ const KeyboardListener = createKeyboardListener()
 KeyboardListener.subscribe(game.moveBlock)
 export const cp = createCounterPoint()
 export var block = { block: new blocks[currentBlock.block](), nextBlock: new blocks[currentBlock.nextBlock]() }
+export var ctxAux
+
 
 function main() {
+    setRecords()
     lose.lose = false
     HEIGHT = innerHeight
     WIDTH = innerWidth
@@ -54,8 +57,25 @@ function main() {
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
 
+    // Atribuindo as caracteristicas do canvas auxiliar
+    const aux = document.createElement('canvas')
+    aux.id = "aux"
+    aux.height = 560
+    aux.width = 420
+    aux.style.border = "1px solid black"
+    aux.style.borderRadius = "3px"
+
+    // Capturando o contexto do canvas auxiliar
+    
+    ctxAux = aux.getContext("2d");
+    document.body.appendChild(aux)
+
+
     
     
+
+
+
     let nextBlockCanvas = document.createElement('canvas')
     nextBlockCanvas.height = 7
     nextBlockCanvas.width = 7
@@ -68,8 +88,15 @@ function main() {
     nextBlockCtx.fillRect(0, 0, 7, 7)
     block.nextBlock.draw(nextBlockCtx, true)
     cp.init()
+    
     //Rodando o game
     run()
+}
+function setRecords(){
+    if( localStorage.length == 0){
+        const pontuations = {pontuations: []}
+        window.localStorage.setItem('records', JSON.stringify(pontuations))
+    }
 }
 
 // RUN
@@ -124,6 +151,7 @@ function createCounterPoint() {
             ind = 100
         }
         pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}` }, 500)
+        
     }
     function stop(reset=false) {
         clearInterval(pointCounter)
@@ -134,8 +162,14 @@ function createCounterPoint() {
     function addPoints(added){
         points += added
     }
+    function printPoints(){
+        ctxAux.fillText(`PONTUAÇÃO: ${points}`, 100, 300)
+    }
+    function returnPoints(){
+        return points
+    }
     return {
-        init, stop, addPoints
+        init, stop, addPoints, printPoints, returnPoints
     }
 
 }
