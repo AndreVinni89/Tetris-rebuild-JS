@@ -294,7 +294,14 @@ export function createGame() {
         clearInterval(falling.fall)
         lose.lose = true
 
+        let points = cp.returnPoints()
 
+        let records = JSON.parse(window.localStorage.getItem('records'))
+
+        if (points > records.pontuations[0]) {
+            ctxAux.font = "32px Arial"
+            ctxAux.fillText("NOVO RECORD!!!", 75, 100)
+        }
         setPontuations()
 
         ctxAux.font = "25px Arial"
@@ -302,25 +309,34 @@ export function createGame() {
         ctxAux.fillText("RECOMEÇAR", 125, 250)
         cp.printPoints()
 
-        const records = JSON.parse(window.localStorage.getItem('records'))
+        records = JSON.parse(window.localStorage.getItem('records'))
+        
+    
+        
+        ctxAux.font = "25px Arial"
 
         ctxAux.fillText(`RECORDS:`, 100, 330)
-        ctxAux.fillText(`1. ${records.pontuations[0]}`, 100, 360)
-        ctxAux.fillText(`2. ${records.pontuations[1]}`, 100, 390)
-        ctxAux.fillText(`3. ${records.pontuations[2]} `, 100, 420)
-        
-        
+        if (records.pontuations[0]) {
+            ctxAux.fillText(`1. ${records.pontuations[0]}`, 100, 360)
+        }
+        if (records.pontuations[1]) {
+            ctxAux.fillText(`2. ${records.pontuations[1]}`, 100, 390)
+        }
+        if (records.pontuations[2]) {
+            ctxAux.fillText(`3. ${records.pontuations[2]} `, 100, 420)
+        }
+
 
         cp.stop(true)
-  
-        
+
+
 
     }
     function resetGame() {
         ctxAux.clearRect(0, 0, 420, 560)
         reset()
     }
-    function setPontuations(){
+    function setPontuations() {
         const records = JSON.parse(window.localStorage.getItem('records'))
         records.pontuations.push(cp.returnPoints())
         records.pontuations.sort()

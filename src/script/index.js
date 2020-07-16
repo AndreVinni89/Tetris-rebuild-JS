@@ -39,6 +39,13 @@ export var ctxAux
 
 function main() {
     setRecords()
+
+    const recordField = document.querySelector("#record")
+    const record = JSON.parse(window.localStorage.getItem("records"))
+
+    recordField.innerHTML = `RECORD: ${record.pontuations[0]}`
+
+
     lose.lose = false
     HEIGHT = innerHeight
     WIDTH = innerWidth
@@ -66,13 +73,13 @@ function main() {
     aux.style.borderRadius = "3px"
 
     // Capturando o contexto do canvas auxiliar
-    
+
     ctxAux = aux.getContext("2d");
     document.body.appendChild(aux)
 
 
-    
-    
+
+
 
 
 
@@ -88,13 +95,13 @@ function main() {
     nextBlockCtx.fillRect(0, 0, 7, 7)
     block.nextBlock.draw(nextBlockCtx, true)
     cp.init()
-    
+
     //Rodando o game
     run()
 }
-function setRecords(){
-    if( localStorage.length == 0){
-        const pontuations = {pontuations: []}
+function setRecords() {
+    if (localStorage.length == 0) {
+        const pontuations = { pontuations: [0] }
         window.localStorage.setItem('records', JSON.stringify(pontuations))
     }
 }
@@ -147,25 +154,25 @@ function createCounterPoint() {
     var pointCounter
     function init(ind = 10) {
         stop()
-        if(ind > 100){
+        if (ind > 100) {
             ind = 100
         }
         pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}` }, 500)
-        
+
     }
-    function stop(reset=false) {
+    function stop(reset = false) {
         clearInterval(pointCounter)
-        if(reset){
+        if (reset) {
             points = 0
         }
     }
-    function addPoints(added){
+    function addPoints(added) {
         points += added
     }
-    function printPoints(){
+    function printPoints() {
         ctxAux.fillText(`PONTUAÇÃO: ${points}`, 100, 300)
     }
-    function returnPoints(){
+    function returnPoints() {
         return points
     }
     return {
@@ -177,6 +184,11 @@ function createCounterPoint() {
 
 
 export function reset() {
+    const recordField = document.querySelector("#record")
+    const record = JSON.parse(window.localStorage.getItem("records"))
+    recordField.innerHTML = record.pontuations[0]
+
+
     matrizGame = []
     for (let conty = 0; conty < 28; conty++) {
         matrizGame.push([])
