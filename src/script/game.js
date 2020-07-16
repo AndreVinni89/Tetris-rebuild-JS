@@ -297,7 +297,7 @@ export function createGame() {
         let points = cp.returnPoints()
 
         let records = JSON.parse(window.localStorage.getItem('records'))
-
+        
         if (points > records.pontuations[0]) {
             ctxAux.font = "32px Arial"
             ctxAux.fillText("NOVO RECORD!!!", 75, 100)
