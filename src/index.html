@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tetris-Rebuild</title>
+    <title>Tetris Rebuild</title>
     <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="style/game.css">
+
 </head>
 
 <body>
-    <h1>Tetris Rebuild</h1>
-    <div id="Next">
-        <h2>Proximo Bloco</h2>
-    </div>
-    <div class="infos">
-        <h2 id="fps"></h2>
-        <h2 id="points"></h2>
-        <h2 id="record"></h2>
+    <a href="game.html" hidden id="link-game"></a>
+    <h1 class="title">Tetris Rebuild</h1>
+    <div class="content-label">
         <a href="pontuations.html">
-            <button> PONTUAÇÕES</button>
+            <button>PONTUAÇÕES</button>
         </a>
+        <div id="nick">
+            <h1>Nick: </h1>
+            <input type="text" id="nick-input" required="required">
+        </div>
+        <!-- <a href="" class="play"> -->
+            <button type="submit" class="play">JOGAR</button>
+        <!-- </a> -->
     </div>
+
     <script src="script/index.js" type="module"></script>
 </body>
 

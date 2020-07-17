@@ -1,5 +1,5 @@
-import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset, cp, ctxAux } from './index.js'
-import { currentBlock } from './index.js'
+import { block, blockDraws, matrizGame, ctx, nextBlockCtx, speed, falling, lose, reset, cp, ctxAux } from './index-game.js'
+import { currentBlock } from './index-game.js'
 import { blocks } from './blocks.js'
 // Camada de regras do jogos
 
@@ -317,13 +317,13 @@ export function createGame() {
 
         ctxAux.fillText(`RECORDS:`, 100, 330)
         if (records.pontuations[0]) {
-            ctxAux.fillText(`1. ${records.pontuations[0]}`, 100, 360)
+            ctxAux.fillText(`1. ${records.pontuations[0][0]} - ${records.pontuations[0][1]}`, 100, 360)
         }
         if (records.pontuations[1]) {
-            ctxAux.fillText(`2. ${records.pontuations[1]}`, 100, 390)
+            ctxAux.fillText(`2. ${records.pontuations[1][0]} - ${records.pontuations[1][1]}`, 100, 390)
         }
         if (records.pontuations[2]) {
-            ctxAux.fillText(`3. ${records.pontuations[2]} `, 100, 420)
+            ctxAux.fillText(`3. ${records.pontuations[2][0]} - ${records.pontuations[2][1]} `, 100, 420)
         }
 
 
@@ -338,7 +338,8 @@ export function createGame() {
     }
     function setPontuations() {
         const records = JSON.parse(window.localStorage.getItem('records'))
-        records.pontuations.push(cp.returnPoints())
+        const nick = window.localStorage.getItem("nick")
+        records.pontuations.push([nick, cp.returnPoints()])
         records.pontuations.sort()
         records.pontuations.reverse()
         window.localStorage.setItem(`records`, JSON.stringify(records))

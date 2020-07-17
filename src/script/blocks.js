@@ -1,4 +1,4 @@
-import { game, matrizGame } from './index.js'
+import { game, matrizGame } from './index-game.js'
 export let blocks = [function () {
     this.y = -2,
         this.x = 11,

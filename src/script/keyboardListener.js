@@ -1,4 +1,4 @@
-import {currentBlock} from './index.js'
+import {currentBlock} from './index-game.js'
 
 export function createKeyboardListener() {
     const state = {

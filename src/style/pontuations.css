@@ -6,3 +6,14 @@ p{
 button{
     margin-left: 20px;
 }
+
+.content-label{
+    background-color: azure;
+    margin: 80px auto;
+    max-width: 750px;
+    border-radius: 10px;
+    padding: 32px;
+    margin-bottom: 80px;
+    min-height: 1000px;
+}
+

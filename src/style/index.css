@@ -1,84 +1,53 @@
-:root{
-    --color1: #10476B;
-    --color2: #1A71AB;
-    --color3: #249BEB;
-    --color4: #25A3F7;
-    --color5: #1F8AD1;
-    
-}
-
 *{
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #03043f;
 }
 
-body{
-    background-color: var(--color3);
-}
-
-h1{
-    color: var(--color1);
-    text-align: center;
-    text-shadow:var(--color5) 2px 2px 2px;
-    margin-top: 2vh;
-    font-size: 32pt;
-
-}
-
-canvas{
-    height: 560px;
-    width: 420px;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    margin: auto;
-    margin-top: 9vh;
-    margin-bottom: 5vh;
-
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    image-rendering: -moz-crisp-edges;
-}
-
-div{
-   margin-left: 10px; 
-}
-
-#next{
-    height: 140px;
-    width: 140px;
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    margin: auto;
-    margin-top: 17vh;
-    margin-bottom: 5vh;
-
-    margin-left: 15px;
-
-}
-
-.infos{
-    
-    float: right;
-    margin-right: 20px;
-
-    
-}
-button{
-    color: #03043f;
-    font-size: 16pt;
-    margin-top: 20px;
-    font-weight: bolder;
-    background-color: var(--color5);
+input{
+    width: auto;
+    height: 30px;
     border-radius: 10px;
-    border: 0;
-    padding: 5px;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+.content-label{
+        background-color: azure;
+        margin: 80px auto;
+        max-width: 750px;
+        border-radius: 10px;
+        padding: 32px;
+        margin-bottom: 80px;
+        
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
+}
+#nick{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+#nick-input{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+h1.title{
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+button{    
+    margin-top: 20px;
+}
+
+a.play{
+    text-align: center;
+}
+button.play{
+    width: 500px;
 }
