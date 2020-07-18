@@ -337,8 +337,8 @@ export function createGame() {
         const records = JSON.parse(window.localStorage.getItem('records'))
         const nick = window.localStorage.getItem("nick")
         records.pontuations.push([nick, cp.returnPoints()])
-        records.pontuations.sort()
-        records.pontuations.reverse()
+        records.pontuations.sort((a, b) => {return b[1]-a[1]})
+        // records.pontuations.reverse()
         window.localStorage.setItem(`records`, JSON.stringify(records))
     }
 
