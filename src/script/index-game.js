@@ -85,6 +85,8 @@ function main() {
     canvas.style.border = "1px solid black"
     canvas.style.borderRadius = "3px"
 
+    
+
     // Capturando o contexto do canvas
     ctx = canvas.getContext("2d")
     document.body.appendChild(canvas)
@@ -98,15 +100,8 @@ function main() {
     aux.style.borderRadius = "3px"
 
     // Capturando o contexto do canvas auxiliar
-
     ctxAux = aux.getContext("2d");
     document.body.appendChild(aux)
-
-
-
-
-
-
 
     let nextBlockCanvas = document.createElement('canvas')
     nextBlockCanvas.height = 7
@@ -115,7 +110,10 @@ function main() {
     nextBlockCanvas.style.borderRadius = "3px"
     nextBlockCanvas.id = "next"
     nextBlockCtx = nextBlockCanvas.getContext("2d")
-    document.body.appendChild(nextBlockCanvas)
+    const nextLabel = document.querySelector("#Next")
+
+
+    nextLabel.appendChild(nextBlockCanvas)
     nextBlockCtx.fillStyle = "#464242"
     nextBlockCtx.fillRect(0, 0, 7, 7)
     block.nextBlock.draw(nextBlockCtx, true)
@@ -157,16 +155,12 @@ function draw() {
 
 }
 
-
 function atualize() {
     frames++
     game.collisionDetect()
 
 
 }
-
-
-
 
 function createCounterPoint() {
     var points = 0
@@ -178,7 +172,6 @@ function createCounterPoint() {
             ind = 100
         }
         pointCounter = setInterval(() => { points += ind; pointField.innerHTML = `PONTOS: ${points}` }, 500)
-
     }
     function stop(reset = false) {
         clearInterval(pointCounter)
@@ -198,16 +191,12 @@ function createCounterPoint() {
     return {
         init, stop, addPoints, printPoints, returnPoints
     }
-
 }
-
-
 
 export function reset() {
     const recordField = document.querySelector("#record")
     const record = JSON.parse(window.localStorage.getItem("records"))
     recordField.innerHTML = `RECORDS: ${record.pontuations[0][1]}`
-
 
     matrizGame = []
     for (let conty = 0; conty < 28; conty++) {
@@ -219,7 +208,6 @@ export function reset() {
             else {
                 matrizGame[conty].push(0)
             }
-
         }
     }
     blockDraws = []
@@ -232,10 +220,4 @@ export function reset() {
     run()
 }
 
-
 main()
-
-
-
-
-

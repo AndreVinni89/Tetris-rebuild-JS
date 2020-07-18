@@ -44,10 +44,6 @@ canvas{
     image-rendering: -moz-crisp-edges;
 }
 
-div{
-   margin-left: 10px; 
-}
-
 #next{
     height: 140px;
     width: 140px;
@@ -60,16 +56,22 @@ div{
     margin-top: 17vh;
     margin-bottom: 5vh;
 
-    margin-left: 15px;
+    margin-left: 200px;
 
 }
 
+#Next{
+    margin-left: 195px; 
+    display: flex;
+    
+
+}
 .infos{
     display: flex;
     flex-direction: column;
     
     float: right;
-    margin-right: 20px;
+    margin-right: 200px;
 
     
 }
@@ -89,7 +91,7 @@ button:hover{
     background-color: rgba(3, 4, 63, 0.397);
 }
 
-.content-label{
+.content{
     background-color: azure;
     margin: 80px auto;
     max-width: 750px;
