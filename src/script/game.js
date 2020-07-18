@@ -290,7 +290,6 @@ export function createGame() {
 
     }
     function loseGame() {
-        console.log("Perdeu")
         clearInterval(falling.fall)
         lose.lose = true
 
@@ -298,7 +297,7 @@ export function createGame() {
 
         let records = JSON.parse(window.localStorage.getItem('records'))
         
-        if (points > records.pontuations[0]) {
+        if (points > records.pontuations[0][1]) {
             ctxAux.font = "32px Arial"
             ctxAux.fillText("NOVO RECORD!!!", 75, 100)
         }
@@ -311,18 +310,16 @@ export function createGame() {
 
         records = JSON.parse(window.localStorage.getItem('records'))
         
-    
-        
         ctxAux.font = "25px Arial"
 
         ctxAux.fillText(`RECORDS:`, 100, 330)
-        if (records.pontuations[0]) {
+        if (records.pontuations[0][1]) {
             ctxAux.fillText(`1. ${records.pontuations[0][0]} - ${records.pontuations[0][1]}`, 100, 360)
         }
-        if (records.pontuations[1]) {
+        if (records.pontuations[1][1]) {
             ctxAux.fillText(`2. ${records.pontuations[1][0]} - ${records.pontuations[1][1]}`, 100, 390)
         }
-        if (records.pontuations[2]) {
+        if (records.pontuations[2][1]) {
             ctxAux.fillText(`3. ${records.pontuations[2][0]} - ${records.pontuations[2][1]} `, 100, 420)
         }
 

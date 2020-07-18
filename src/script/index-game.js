@@ -35,16 +35,15 @@ KeyboardListener.subscribe(game.moveBlock)
 export const cp = createCounterPoint()
 export var block = { block: new blocks[currentBlock.block](), nextBlock: new blocks[currentBlock.nextBlock]() }
 export var ctxAux
+export var falling
 
 
 function main() {
     setRecords()
-
     const recordField = document.querySelector("#record")
     const record = JSON.parse(window.localStorage.getItem("records"))
 
     try {
-        console.log(record.pontuations[0][1])
         recordField.innerHTML = `RECORD: ${record.pontuations[0][1]}`
     }
     catch{
@@ -53,6 +52,24 @@ function main() {
     const nickLabel = document.querySelector("#nick")
     const nick = window.localStorage.getItem("nick")
     nickLabel.innerHTML += nick
+
+
+    const logoutBt = document.querySelector("#logout")
+    logoutBt.addEventListener("click", () => { window.localStorage.setItem("nick", "") })
+
+
+
+    falling = { fall: setInterval(() => { block.block.atualize() }, speed.speed) }
+    falling.fall
+
+
+
+    var fpsField = document.querySelector("#fps")
+    setInterval(() => { fpsField.innerHTML = `FPS: ${frames}`; frames = 0 }, 1000)
+
+
+
+
 
     lose.lose = false
     HEIGHT = innerHeight
@@ -107,9 +124,8 @@ function main() {
     //Rodando o game
     run()
 }
-function setRecords() {
-    console.log(localStorage)
-    if (localStorage.length == 1) {
+export function setRecords() {
+    if (localStorage.length <= 1) {
         const pontuations = { pontuations: [[0, 0]] }
         window.localStorage.setItem('records', JSON.stringify(pontuations))
     }
@@ -148,15 +164,6 @@ function atualize() {
 
 
 }
-export var falling = { fall: setInterval(() => { block.block.atualize() }, speed.speed) }
-falling.fall
-
-
-
-var fpsField = document.querySelector("#fps")
-setInterval(() => { fpsField.innerHTML = `FPS: ${frames}`; frames = 0 }, 1000)
-
-
 
 
 
@@ -224,7 +231,6 @@ export function reset() {
     falling.fall = setInterval(() => { block.block.atualize() }, speed.speed)
     run()
 }
-
 
 
 main()

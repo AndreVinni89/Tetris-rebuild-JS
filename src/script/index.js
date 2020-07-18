@@ -1,3 +1,8 @@
+
+
+window.localStorage.setItem("nick", "")
+
+
 const btNick = document.querySelector(".play")
 
 
@@ -19,6 +24,7 @@ try {
 
         }
         else {
+            window.alert("Por favor informe o seu nick")
             console.log("Tem nada nao")
         }
     })

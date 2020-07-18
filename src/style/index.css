@@ -49,5 +49,7 @@ a.play{
     text-align: center;
 }
 button.play{
-    width: 500px;
+    width: 400px;
+    text-align: center;
+    margin-left: 150px;
 }
